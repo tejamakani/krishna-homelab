@@ -1,49 +1,69 @@
 import clsx from 'clsx';
 import Heading from '@theme/Heading';
+import Link from '@docusaurus/Link';
 import styles from './styles.module.css';
 
 const FeatureList = [
   {
-    title: 'Easy to Use',
-    Svg: require('@site/static/img/undraw_docusaurus_mountain.svg').default,
-    description: (
-      <>
-        Docusaurus was designed from the ground up to be easily installed and
-        used to get your website up and running quickly.
-      </>
-    ),
+    icon: '🖥️',
+    title: 'Proxmox VE',
+    link: '/docs/proxmox/install',
+    description: 'Virtualization platform powering the HomeLab infrastructure.',
   },
   {
-    title: 'Focus on What Matters',
-    Svg: require('@site/static/img/undraw_docusaurus_tree.svg').default,
-    description: (
-      <>
-        Docusaurus lets you focus on your docs, and we&apos;ll do the chores. Go
-        ahead and move your docs into the <code>docs</code> directory.
-      </>
-    ),
+    icon: '🏡',
+    title: 'Home Assistant',
+    link: '/docs/homeassistant/installation',
+    description: 'Smart home automation, dashboards and integrations.',
   },
   {
-    title: 'Powered by React',
-    Svg: require('@site/static/img/undraw_docusaurus_react.svg').default,
-    description: (
-      <>
-        Extend or customize your website layout by reusing React. Docusaurus can
-        be extended while reusing the same header and footer.
-      </>
-    ),
+    icon: '🎥',
+    title: 'Frigate AI',
+    link: '/docs/frigate/installation',
+    description: 'AI-powered object detection using Coral TPU acceleration.',
+  },
+  {
+    icon: '🌐',
+    title: 'Networking',
+    link: '/docs/network/topology',
+    description: 'VLANs, switching, routing and enterprise network design.',
+  },
+  {
+    icon: '📷',
+    title: 'Hardware',
+    link: '/docs/hardware',
+    description: 'Servers, storage, Coral TPU, cameras and networking gear.',
+  },
+  {
+    icon: '📊',
+    title: 'Architecture',
+    link: '/docs/architecture',
+    description: 'Interactive diagrams and complete HomeLab topology.',
   },
 ];
 
-function Feature({Svg, title, description}) {
+function Feature({ icon, title, description, link }) {
   return (
-    <div className={clsx('col col--4')}>
-      <div className="text--center">
-        <Svg className={styles.featureSvg} role="img" />
-      </div>
-      <div className="text--center padding-horiz--md">
+    <div className={clsx('col col--4 margin-bottom--lg')}>
+      <div
+        style={{
+          border: '1px solid var(--ifm-color-emphasis-300)',
+          borderRadius: '16px',
+          padding: '30px',
+          height: '100%',
+          textAlign: 'center',
+          transition: '0.3s',
+        }}
+      >
+        <div style={{ fontSize: '3rem' }}>{icon}</div>
+
         <Heading as="h3">{title}</Heading>
+
         <p>{description}</p>
+
+        <Link className="button button--primary button--sm" to={link}>
+          Learn More →
+        </Link>
       </div>
     </div>
   );
@@ -53,9 +73,13 @@ export default function HomepageFeatures() {
   return (
     <section className={styles.features}>
       <div className="container">
+        <Heading as="h2" style={{ textAlign: 'center', marginBottom: '3rem' }}>
+          Explore the HomeLab
+        </Heading>
+
         <div className="row">
-          {FeatureList.map((props, idx) => (
-            <Feature key={idx} {...props} />
+          {FeatureList.map((feature, idx) => (
+            <Feature key={idx} {...feature} />
           ))}
         </div>
       </div>

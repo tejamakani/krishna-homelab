@@ -1,6 +1,7 @@
 const sidebars = {
   tutorialSidebar: [
     'intro',
+
     {
       type: 'category',
       label: '🏠 HomeLab',
@@ -9,33 +10,52 @@ const sidebars = {
         'hardware',
       ],
     },
+
     {
       type: 'category',
-      label: '🖥 Proxmox',
+      label: '🖥️ Proxmox',
       items: [
         'proxmox/install',
         'proxmox/networking',
+        'proxmox/backup',
       ],
     },
+
     {
       type: 'category',
       label: '🏡 Home Assistant',
       items: [
-        'homeassistant/install',
+        'homeassistant/installation',
+        'homeassistant/automations',
+        'homeassistant/dashboards',
       ],
     },
+
     {
       type: 'category',
       label: '🎥 Frigate AI',
       items: [
-        'frigate/install',
+        'frigate/installation',
+        'frigate/object-detection',
+        'frigate/coral-tpu',
       ],
     },
+
     {
       type: 'category',
       label: '🌐 Networking',
       items: [
-        'network/design',
+        'network/topology',
+        'network/vlans',
+        'network/firewall',
+      ],
+    },
+
+    {
+      type: 'category',
+      label: '🛠️ Troubleshooting',
+      items: [
+        'troubleshooting/common-issues',
       ],
     },
   ],

@@ -12,27 +12,51 @@ function HomepageHeader() {
 
   return (
     <header className={clsx('hero hero--primary', styles.heroBanner)}>
-      <div className="container">
+      <div className="container" style={{padding: '4rem 0', textAlign: 'center'}}>
 
         <Heading as="h1" className="hero__title">
-          🏠 {siteConfig.title}
+          🏠 Makani HomeLab
         </Heading>
 
         <p className="hero__subtitle">
-          {siteConfig.tagline}
+          Enterprise-grade Smart Home Infrastructure
         </p>
 
-        <p style={{fontSize: '1.2rem', marginTop: '20px'}}>
-          Build your own Smart Home with
-          <br />
-          🖥️ Proxmox • 🏡 Home Assistant • 🎥 Frigate AI • 🧠 Coral TPU
+        <p style={{
+          fontSize: '1.25rem',
+          maxWidth: '850px',
+          margin: '2rem auto',
+          lineHeight: '1.8'
+        }}>
+          A complete HomeLab built using <strong>Proxmox VE</strong>,
+          <strong> Home Assistant</strong>,
+          <strong> Frigate NVR</strong>,
+          <strong> Coral TPU</strong>,
+          enterprise networking, and modern automation.
         </p>
 
-        <div className={styles.buttons}>
+        <div style={{
+          display: 'flex',
+          justifyContent: 'center',
+          gap: '20px',
+          flexWrap: 'wrap'
+        }}>
+          <Link
+           className="button button--lg"
+            style={{
+           backgroundColor: "#ffffff",
+           color: "#1f2937",
+            border: "2px solid #ffffff"
+            }}
+            to="/docs/intro"
+            >
+            📖 Documentation
+          </Link>
+
           <Link
             className="button button--secondary button--lg"
-            to="/docs/intro">
-            📖 Start Reading
+            to="/docs/architecture">
+            📊 Architecture
           </Link>
         </div>
 
@@ -43,14 +67,16 @@ function HomepageHeader() {
 
 export default function Home() {
   const {siteConfig} = useDocusaurusContext();
-  return (
-    <Layout
-      title={`Hello from ${siteConfig.title}`}
-      description="Description will go into a meta tag in <head />">
-      <HomepageHeader />
-      <main>
-        <HomepageFeatures />
-      </main>
-    </Layout>
-  );
+return (
+  <Layout
+    title="Makani HomeLab"
+    description="Documentation for my HomeLab infrastructure built with Proxmox, Home Assistant, Frigate AI, Coral TPU and enterprise networking."
+  >
+    <HomepageHeader />
+
+    <main>
+      <HomepageFeatures />
+    </main>
+  </Layout>
+);
 }
