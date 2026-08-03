@@ -4,9 +4,9 @@ import {themes as prismThemes} from 'prism-react-renderer';
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-  title: 'Makani HomeLab',
-  tagline:
-    'Building a Smart Home Infrastructure with Proxmox, Home Assistant and Frigate AI',
+ title: "Makani's Home-Lab",
+tagline:
+  "Engineering a Smarter Home, One Service at a Time.",
 
   favicon: 'img/favicon.ico',
 
@@ -21,6 +21,7 @@ const config = {
   projectName: 'krishna-homelab',
 
   trailingSlash: false,
+
   onBrokenLinks: 'throw',
 
   i18n: {
@@ -55,10 +56,10 @@ const config = {
     },
 
     navbar: {
-      title: 'Makani HomeLab',
+      title: 'Makani\'s Home-Lab',
 
       logo: {
-        alt: 'Makani HomeLab',
+        alt: 'Makani\'s Home-Lab',
         src: 'img/logo.svg',
       },
 
@@ -127,7 +128,7 @@ const config = {
         },
       ],
 
-      copyright: `© ${new Date().getFullYear()} Makani HomeLab`,
+      copyright: `© ${new Date().getFullYear()} Makani\'s Home-Lab`,
     },
 
     prism: {

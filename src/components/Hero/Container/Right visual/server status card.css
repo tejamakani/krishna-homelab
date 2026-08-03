@@ -1,0 +1,134 @@
+/* ==========================================
+   Live HomeLab Card
+========================================== */
+
+.statusCard {
+
+  width: 100%;
+  max-width: 430px;
+
+  padding: 32px;
+
+  border-radius: 22px;
+
+  background: rgba(17, 24, 39, 0.85);
+
+  border: 1px solid rgba(56,189,248,.18);
+
+  backdrop-filter: blur(18px);
+
+  box-shadow:
+      0 20px 60px rgba(0,0,0,.45),
+      0 0 40px rgba(56,189,248,.08);
+
+}
+
+.left {
+  display: flex;
+  flex-direction: column;
+}
+
+.right {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.statusCard h3{
+
+  color:#ffffff;
+
+  font-size:1.35rem;
+
+  margin-bottom:28px;
+
+}
+
+.statusItem{
+
+  display:flex;
+
+  align-items:center;
+
+  gap:12px;
+
+  color:#E5E7EB;
+
+  font-size:1rem;
+
+  margin-bottom:16px;
+
+}
+
+.statusCard hr{
+
+  border:none;
+
+  border-top:1px solid rgba(255,255,255,.08);
+
+  margin:26px 0;
+
+}
+
+.metric{
+
+  display:flex;
+
+  justify-content:space-between;
+
+  align-items:center;
+
+  color:#F9FAFB;
+
+  margin-bottom:16px;
+
+  font-size:1rem;
+
+}
+
+.metric span{
+
+  color:#38BDF8;
+
+  font-weight:700;
+
+}
+
+.progressItem{
+
+  margin-bottom:22px;
+
+}
+
+.metricHeader{
+
+  display:flex;
+
+  justify-content:space-between;
+
+  margin-bottom:8px;
+
+  color:#F3F4F6;
+
+}
+
+.progressBar{
+
+  height:8px;
+
+  background:#1F2937;
+
+  border-radius:999px;
+
+  overflow:hidden;
+
+}
+
+.progress{
+
+  height:100%;
+
+  background:#38BDF8;
+
+  border-radius:999px;
+
+}

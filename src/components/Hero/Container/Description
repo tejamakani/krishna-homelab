@@ -1,0 +1,17 @@
+.description {
+
+  margin-top: 2rem;
+
+  max-width: 700px;
+
+  font-size: 1.15rem;
+
+  line-height: 1.9;
+
+  color: #94A3B8;
+}
+
+.description strong{
+
+  color:white;
+}
