@@ -4,9 +4,8 @@ import {themes as prismThemes} from 'prism-react-renderer';
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
- title: "Makani's Home-Lab",
-tagline:
-  "Engineering a Smarter Home, One Service at a Time.",
+  title: "Makani's Home-Lab",
+  tagline: 'Engineering a Smarter Home, One Service at a Time.',
 
   favicon: 'img/favicon.ico',
 
@@ -25,11 +24,19 @@ tagline:
   onBrokenLinks: 'throw',
 
   i18n: {
-    defaultLocale: 'en',
-    locales: ['en'],
+  defaultLocale: 'en',
+  locales: ['en'],
   },
 
-  presets: [
+// Enable Mermaid diagrams
+  markdown: {
+    mermaid: true,
+  },
+
+// Load Mermaid theme
+themes: ['@docusaurus/theme-mermaid'],
+
+presets: [
     [
       'classic',
       {
@@ -55,11 +62,18 @@ tagline:
       respectPrefersColorScheme: true,
     },
 
+    // Mermaid automatically follows the website color mode.
+    mermaid: {
+      theme: {
+        light: 'neutral',
+      dark: 'dark',
+    },
+  },
     navbar: {
-      title: 'Makani\'s Home-Lab',
+      title: "Makani's Home-Lab",
 
       logo: {
-        alt: 'Makani\'s Home-Lab',
+        alt: "Makani's Home-Lab",
         src: 'img/logo.svg',
       },
 
@@ -128,7 +142,7 @@ tagline:
         },
       ],
 
-      copyright: `© ${new Date().getFullYear()} Makani\'s Home-Lab`,
+      copyright: `© ${new Date().getFullYear()} Makani's Home-Lab`,
     },
 
     prism: {

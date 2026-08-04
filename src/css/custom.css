@@ -67,3 +67,20 @@
 
   --transition: .3s ease;
 }
+.architectureDiagram {
+  margin: 2rem 0;
+  padding: 1.25rem;
+  border: 1px solid var(--ifm-color-emphasis-300);
+  border-radius: 18px;
+  background: var(--ifm-background-surface-color);
+  box-shadow: 0 12px 32px rgba(15, 23, 42, 0.08);
+  overflow-x: auto;
+}
+
+.architectureDiagram img {
+  display: block;
+  width: 100%;
+  min-width: 760px;
+  height: auto;
+  margin: 0 auto;
+}

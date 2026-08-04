@@ -4,10 +4,9 @@ const sidebars = {
 
     {
       type: 'category',
-      label: '🏠 HomeLab',
+      label: 'Architecture',
       items: [
-        'architecture',
-        'hardware',
+        'architecture/overall-architecture',
       ],
     },
 
