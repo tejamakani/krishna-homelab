@@ -1,0 +1,848 @@
+/* ==========================================
+   Dashboard Section
+========================================== */
+
+.dashboard {
+  position: relative;
+  overflow: hidden;
+
+  background:
+    radial-gradient(circle at top right, rgba(56,189,248,.08), transparent 30%),
+    radial-gradient(circle at bottom left, rgba(14,165,233,.06), transparent 35%),
+    linear-gradient(180deg,#111827 0%,#0b1220 100%);
+
+  padding: 100px 0;
+}
+
+.container {
+  width: 100%;
+  max-width: 1400px;
+
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+
+/* ==========================================
+   Dashboard Header
+========================================== */
+
+.header {
+  text-align: center;
+
+  max-width: 850px;
+
+  margin: 0 auto 80px;
+}
+
+.badge {
+  display: inline-flex;
+
+  padding: 8px 18px;
+
+  border-radius: 999px;
+
+  background: rgba(56,189,248,.08);
+
+  border: 1px solid rgba(56,189,248,.20);
+
+  color: #38bdf8;
+
+  font-size: .8rem;
+  font-weight: 700;
+
+  letter-spacing: 2px;
+
+  text-transform: uppercase;
+}
+
+.header h2 {
+  margin: 24px 0 20px;
+
+  color: white;
+
+  font-size: clamp(2.3rem,5vw,3.3rem);
+
+  font-weight: 800;
+}
+
+.header p {
+  color: #94a3b8;
+
+  font-size: 1.15rem;
+
+  line-height: 1.9;
+}
+
+
+/* ==========================================
+   Metrics Grid
+========================================== */
+
+.metricGrid {
+
+  display: grid;
+
+  grid-template-columns: repeat(auto-fit,minmax(280px,1fr));
+
+  gap: 28px;
+
+  margin-bottom: 90px;
+
+}
+
+
+/* ==========================================
+   Metric Card
+========================================== */
+
+.metricCard {
+
+  position: relative;
+
+  overflow: hidden;
+
+  padding: 34px;
+
+  border-radius: 24px;
+
+  background:
+      linear-gradient(
+          180deg,
+          rgba(30,41,59,.95),
+          rgba(15,23,42,.95)
+      );
+
+  border: 1px solid rgba(56,189,248,.10);
+
+  backdrop-filter: blur(18px);
+
+  transition: all .35s ease;
+
+  box-shadow:
+      0 20px 45px rgba(0,0,0,.35);
+
+}
+
+.metricCard::before{
+
+  content:"";
+
+  position:absolute;
+
+  inset:0;
+
+  background:
+      radial-gradient(circle at top right,
+      rgba(56,189,248,.10),
+      transparent 55%);
+
+  pointer-events:none;
+
+}
+
+.metricCard:hover{
+
+  transform:translateY(-8px);
+
+  border-color:#38bdf8;
+
+  box-shadow:
+
+      0 30px 70px rgba(0,0,0,.45),
+
+      0 0 45px rgba(56,189,248,.08);
+
+}
+
+
+/* ==========================================
+   Icon
+========================================== */
+
+.metricIcon{
+
+  width:64px;
+
+  height:64px;
+
+  display:flex;
+
+  justify-content:center;
+
+  align-items:center;
+
+  border-radius:18px;
+
+  margin-bottom:26px;
+
+  color:#38bdf8;
+
+  background:rgba(56,189,248,.08);
+
+}
+
+
+/* ==========================================
+   Typography
+========================================== */
+
+.metricTitle{
+
+  color:#94a3b8;
+
+  font-size:.9rem;
+
+  font-weight:600;
+
+  letter-spacing:1px;
+
+  text-transform:uppercase;
+
+}
+
+.metricValue{
+
+  color:white;
+
+  font-size:3.3rem;
+
+  font-weight:800;
+
+  margin:18px 0;
+
+  line-height:1;
+
+}
+
+.metricSubtitle{
+
+  color:#38bdf8;
+
+  font-weight:700;
+
+}
+
+
+/* ==========================================
+   Placeholder Sections
+========================================== */
+
+.placeholderSection{
+
+  padding:45px;
+
+  margin-bottom:35px;
+
+  border-radius:24px;
+
+  background:rgba(17,24,39,.72);
+
+  border:1px solid rgba(255,255,255,.06);
+
+  color:#cbd5e1;
+
+  font-size:1.1rem;
+
+}
+
+
+/* ==========================================
+   Responsive
+========================================== */
+
+@media (max-width:996px){
+
+.metricGrid{
+
+grid-template-columns:repeat(2,1fr);
+
+}
+
+}
+
+@media (max-width:768px){
+
+.dashboard{
+
+padding:70px 0;
+
+}
+
+.header h2{
+
+font-size:2.4rem;
+
+}
+
+.header p{
+
+font-size:1rem;
+
+}
+
+}
+
+@media (max-width:640px){
+
+.metricGrid{
+
+grid-template-columns:1fr;
+
+}
+
+.container{
+
+padding:0 1.2rem;
+
+}
+
+}
+/* ==========================================
+   Infrastructure Health
+========================================== */
+
+.healthSection {
+
+  margin-bottom: 80px;
+
+}
+
+.healthSection h2 {
+
+  color: white;
+
+  font-size: 2rem;
+
+  margin-bottom: 10px;
+
+}
+
+.healthSection p {
+
+  color: #94a3b8;
+
+  margin-bottom: 30px;
+
+}
+
+.healthGrid {
+
+  display: grid;
+
+  grid-template-columns: repeat(2,1fr);
+
+  gap: 20px;
+
+}
+
+.healthTile {
+
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  padding: 22px 24px;
+
+  border-radius: 18px;
+
+  background: rgba(17,24,39,.72);
+
+  border: 1px solid rgba(255,255,255,.06);
+
+  transition: .3s;
+
+}
+
+.healthTile:hover{
+
+  transform: translateY(-4px);
+
+  border-color:#38bdf8;
+
+}
+
+.healthLeft{
+
+  display:flex;
+
+  align-items:center;
+
+  gap:14px;
+
+  color:white;
+
+}
+
+.healthDot{
+
+  width:12px;
+
+  height:12px;
+
+  border-radius:50%;
+
+  box-shadow:0 0 12px currentColor;
+
+}
+
+.healthStatus{
+
+  font-weight:700;
+
+}
+
+@media(max-width:768px){
+
+.healthGrid{
+
+grid-template-columns:1fr;
+
+}
+
+}
+/* ==========================================
+   Resource Usage
+========================================== */
+
+.resourceSection{
+
+  margin-bottom:80px;
+
+}
+
+.resourceSection h2{
+
+  color:white;
+  margin-bottom:10px;
+
+}
+
+.resourceSection p{
+
+  color:#94a3b8;
+  margin-bottom:30px;
+
+}
+
+.resourceCard{
+
+  padding:30px;
+
+  border-radius:22px;
+
+  background:rgba(17,24,39,.72);
+
+  border:1px solid rgba(255,255,255,.06);
+
+}
+
+.progressItem{
+
+  margin-bottom:26px;
+
+}
+
+.progressHeader{
+
+  display:flex;
+
+  justify-content:space-between;
+
+  color:white;
+
+  margin-bottom:10px;
+
+}
+
+.progressTrack{
+
+  height:10px;
+
+  border-radius:999px;
+
+  overflow:hidden;
+
+  background:#1e293b;
+
+}
+
+.progressFill{
+
+  height:100%;
+
+  border-radius:999px;
+
+  transition:width .8s ease;
+
+}
+/* ==========================================
+   Camera Status
+========================================== */
+
+.cameraSection{
+
+  margin-bottom:80px;
+
+}
+
+.cameraSection h2{
+
+  color:white;
+
+  margin-bottom:10px;
+
+}
+
+.cameraSection p{
+
+  color:#94a3b8;
+
+  margin-bottom:30px;
+
+}
+
+.cameraGrid{
+
+  display:grid;
+
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+
+  gap:20px;
+
+}
+
+.cameraTile{
+
+  display:flex;
+
+  justify-content:space-between;
+
+  align-items:center;
+
+  padding:22px;
+
+  border-radius:18px;
+
+  background:rgba(17,24,39,.72);
+
+  border:1px solid rgba(255,255,255,.06);
+
+  transition:.3s;
+
+}
+
+.cameraTile:hover{
+
+  transform:translateY(-4px);
+
+  border-color:#38bdf8;
+
+}
+
+.cameraTile strong{
+
+  color:white;
+
+}
+
+.cameraStatus{
+
+  font-weight:700;
+
+}
+/* ==========================================
+   Status Badge
+========================================== */
+
+.statusBadge{
+
+display:flex;
+
+align-items:center;
+
+gap:10px;
+
+font-weight:700;
+
+color:#22c55e;
+
+font-size:.95rem;
+
+}
+
+.statusDot{
+
+width:10px;
+
+height:10px;
+
+border-radius:50%;
+
+box-shadow:
+
+0 0 10px currentColor,
+
+0 0 20px currentColor;
+
+}
+
+/* ==========================================
+   Service Header
+========================================== */
+
+.serviceHeader{
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+margin-bottom:24px;
+
+}
+
+.serviceInfo{
+
+display:flex;
+
+align-items:center;
+
+gap:16px;
+
+}
+
+.serviceLogo{
+
+width:52px;
+
+height:52px;
+
+object-fit:contain;
+
+}
+
+.serviceInfo h3{
+
+margin:0;
+
+color:white;
+
+font-size:1.35rem;
+
+font-weight:700;
+
+}
+
+/* ==========================================
+   Service Card
+========================================== */
+
+.serviceSection{
+
+margin-bottom:100px;
+
+}
+
+.serviceSection h2{
+
+color:white;
+
+margin-bottom:10px;
+
+}
+
+.serviceSection p{
+
+color:#94a3b8;
+
+margin-bottom:40px;
+
+}
+
+.serviceGrid{
+
+display:grid;
+
+grid-template-columns:repeat(auto-fit,minmax(380px,1fr));
+
+gap:28px;
+
+}
+
+.serviceCard{
+
+display:flex;
+
+flex-direction:column;
+
+gap:18px;
+
+padding:30px;
+
+border-radius:24px;
+
+background:rgba(17,24,39,.72);
+
+border:1px solid rgba(255,255,255,.06);
+
+transition:.35s;
+
+backdrop-filter:blur(16px);
+
+box-shadow:
+
+0 20px 40px rgba(0,0,0,.25);
+
+}
+
+.serviceCard:hover{
+
+transform:translateY(-6px);
+
+border-color:#38bdf8;
+
+box-shadow:
+
+0 30px 60px rgba(0,0,0,.35),
+
+0 0 35px rgba(56,189,248,.08);
+
+}
+
+/* ==========================================
+   Info Rows
+========================================== */
+
+.infoRow{
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+padding-bottom:10px;
+
+border-bottom:1px solid rgba(255,255,255,.05);
+
+}
+
+.infoRow span{
+
+color:#94a3b8;
+
+}
+
+.infoRow strong{
+
+color:white;
+
+font-weight:600;
+
+}
+
+/* ==========================================
+   Progress Bars
+========================================== */
+
+.progressSection{
+
+display:flex;
+
+flex-direction:column;
+
+gap:8px;
+
+}
+
+.metricHeader{
+
+display:flex;
+
+justify-content:space-between;
+
+color:white;
+
+font-size:.95rem;
+
+}
+
+.progressTrack{
+
+height:10px;
+
+background:#1f2937;
+
+border-radius:999px;
+
+overflow:hidden;
+
+}
+
+.progressFill{
+
+height:100%;
+
+border-radius:999px;
+
+transition:width .6s ease;
+
+}
+
+/* ==========================================
+   Action Buttons
+========================================== */
+
+.actionButtons{
+
+display:flex;
+
+gap:14px;
+
+margin-top:10px;
+
+}
+
+.actionButton{
+
+flex:1;
+
+display:flex;
+
+justify-content:center;
+
+align-items:center;
+
+padding:12px;
+
+border-radius:12px;
+
+text-decoration:none;
+
+font-weight:600;
+
+color:#7dd3fc;
+
+border:1px solid rgba(56,189,248,.25);
+
+background:rgba(56,189,248,.05);
+
+transition:.3s;
+
+}
+
+.actionButton:hover{
+
+background:#38bdf8;
+
+color:#08111f;
+
+text-decoration:none;
+
+transform:translateY(-2px);
+
+}
