@@ -1,24 +1,23 @@
+import React from "react";
 import Link from "@docusaurus/Link";
 import styles from "../Hero.module.css";
 
 export default function HeroButtons() {
   return (
     <div className={styles.heroButtons}>
-
       <Link
-        className={`${styles.primaryButton} button button--lg`}
-        to="/docs/intro"
+        className="button button--primary button--lg"
+        to="/docs/playbook/vision"
       >
-        📖 Documentation
+        📘 Start Reading
       </Link>
 
       <Link
-        className={`${styles.secondaryButton} button button--lg`}
+        className="button button--secondary button--lg"
         to="/docs/architecture"
       >
-        🗺️ Architecture
+        🏗️ Explore Architecture
       </Link>
-
     </div>
   );
 }

@@ -6,7 +6,7 @@ export default function HeroButtons() {
     <div className={styles.heroButtons}>
       <Link
         className={`button button--lg ${styles.primaryButton}`}
-        to="/docs/intro"
+        to="/docs/engineering-foundation"
       >
         📖 Documentation
       </Link>

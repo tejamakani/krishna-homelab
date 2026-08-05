@@ -108,7 +108,7 @@ presets: [
           items: [
             {
               label: 'HomeLab Guide',
-              to: '/docs/intro',
+              to: '/docs',
             },
           ],
         },
