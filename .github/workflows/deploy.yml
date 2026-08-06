@@ -5,7 +5,7 @@ on:
     branches:
       - main
   workflow_dispatch:
-    
+
 permissions:
   contents: read
   pages: write
@@ -32,6 +32,9 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+
       - name: Build website
         run: npm run build
         env:
@@ -44,7 +47,6 @@ jobs:
 
   deploy:
     needs: build
-
     runs-on: ubuntu-latest
 
     environment:
