@@ -4,8 +4,10 @@ import {themes as prismThemes} from 'prism-react-renderer';
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-  title: "Makani's Home-Lab",
-  tagline: 'Engineering a Smarter Home, One Service at a Time.',
+  title: "Makani's HomeAuto",
+
+  tagline:
+    'Enterprise Smart Home Infrastructure • AI Surveillance • Automation',
 
   favicon: 'img/favicon.ico',
 
@@ -24,19 +26,17 @@ const config = {
   onBrokenLinks: 'throw',
 
   i18n: {
-  defaultLocale: 'en',
-  locales: ['en'],
+    defaultLocale: 'en',
+    locales: ['en'],
   },
 
-// Enable Mermaid diagrams
   markdown: {
     mermaid: true,
   },
 
-// Load Mermaid theme
-themes: ['@docusaurus/theme-mermaid'],
+  themes: ['@docusaurus/theme-mermaid'],
 
-presets: [
+  presets: [
     [
       'classic',
       {
@@ -62,35 +62,53 @@ presets: [
       respectPrefersColorScheme: true,
     },
 
-    // Mermaid automatically follows the website color mode.
     mermaid: {
       theme: {
         light: 'neutral',
-      dark: 'dark',
+        dark: 'dark',
+      },
     },
-  },
+
     navbar: {
-      title: "Makani's Home-Lab",
+      title: '',
 
       logo: {
-        alt: "Makani's Home-Lab",
-        src: 'img/logo.svg',
+        alt: "Makani's HomeAuto",
+        src: 'img/branding/homeauto-horizontal.png',
       },
 
       items: [
         {
           type: 'docSidebar',
           sidebarId: 'tutorialSidebar',
-          label: 'Documentation',
+          label: 'Docs',
           position: 'left',
         },
-
         {
           to: '/docs/architecture',
           label: 'Architecture',
           position: 'left',
         },
-
+        {
+          to: '/docs',
+          label: 'Lab Setup',
+          position: 'left',
+        },
+        {
+          to: '/docs',
+          label: 'Production Setup',
+          position: 'left',
+        },
+        {
+          to: '/docs',
+          label: 'Integrations',
+          position: 'left',
+        },
+        {
+          to: '/docs',
+          label: 'Projects',
+          position: 'left',
+        },
         {
           href: 'https://github.com/tejamakani/krishna-homelab',
           label: 'GitHub',
@@ -107,30 +125,28 @@ presets: [
           title: 'Documentation',
           items: [
             {
-              label: 'HomeLab Guide',
+              label: 'HomeAuto Guide',
               to: '/docs',
             },
           ],
         },
-
         {
           title: 'Technologies',
           items: [
             {
               label: 'Proxmox',
-              to: '/docs/proxmox/install',
+              to: '/docs',
             },
             {
               label: 'Home Assistant',
-              to: '/docs/homeassistant/installation',
+              to: '/docs',
             },
             {
               label: 'Frigate AI',
-              to: '/docs/frigate/installation',
+              to: '/docs',
             },
           ],
         },
-
         {
           title: 'Source Code',
           items: [
@@ -142,7 +158,7 @@ presets: [
         },
       ],
 
-      copyright: `© ${new Date().getFullYear()} Makani's Home-Lab`,
+      copyright: `© ${new Date().getFullYear()} Makani's HomeAuto`,
     },
 
     prism: {

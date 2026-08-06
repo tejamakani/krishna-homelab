@@ -3,6 +3,8 @@ sidebar_position: 2
 title: Hardware
 description: HomeLab hardware platform and production hardware recommendations
 ---
+# Chapter 2
+
 # 🖥️ Hardware Platform
 
 The Makani HomeLab is built using enterprise-inspired hardware to support virtualization, AI-powered video analytics, smart home automation, and enterprise networking.

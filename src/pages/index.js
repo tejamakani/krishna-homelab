@@ -1,17 +1,13 @@
 import Layout from "@theme/Layout";
-
-import Hero from "../components/Hero/Hero";
-import Dashboard from "../components/Dashboard/Dashboard";
+import PortalLayout from "../components/Portal/PortalLayout";
 
 export default function Home() {
   return (
     <Layout
-      title="Makani's HomeLab"
-      description="Enterprise HomeLab Documentation"
+      title="Makani's HomeAuto"
+      description="Enterprise Smart Home Infrastructure"
     >
-      <Hero />
-
-      <Dashboard />
+      <PortalLayout />
     </Layout>
   );
 }

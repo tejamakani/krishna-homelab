@@ -6,7 +6,7 @@ description: Building the Platform Foundation
 
 # 💻 Part II — Platform
 
-# Chapter 2
+# Chapter 1
 
 # Ubuntu Server
 

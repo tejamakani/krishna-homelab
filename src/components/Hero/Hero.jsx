@@ -19,13 +19,11 @@ export default function Hero() {
           </div>
 
           <h1 className={styles.title}>
-            🏠 Makani&apos;s Home-Lab
+            🏠 Makani's HomeAuto
           </h1>
 
           <h2 className={styles.subtitle}>
-            Engineering a Smarter Home,
-            <br />
-            One Service at a Time.
+            Engineering the Future of Smart Living.
           </h2>
 
           <p className={styles.description}>

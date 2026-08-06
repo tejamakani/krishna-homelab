@@ -1,86 +1,491 @@
-/**
- * Any CSS included here will be global. The classic template
- * bundles Infima by default. Infima is a CSS framework designed to
- * work well for content-centric websites.
- */
+/* ==========================================
+   Global Theme Variables
+========================================== */
 
-/* You can override the default Infima variables here. */
 :root {
-  --ifm-color-primary: #2e8555;
-  --ifm-color-primary-dark: #29784c;
-  --ifm-color-primary-darker: #277148;
-  --ifm-color-primary-darkest: #205d3b;
-  --ifm-color-primary-light: #33925d;
-  --ifm-color-primary-lighter: #359962;
-  --ifm-color-primary-lightest: #3cad6e;
+  --ifm-color-primary: #22d3ee;
+  --ifm-color-primary-dark: #06b6d4;
+  --ifm-color-primary-darker: #0891b2;
+  --ifm-color-primary-darkest: #0e7490;
+  --ifm-color-primary-light: #67e8f9;
+  --ifm-color-primary-lighter: #a5f3fc;
+  --ifm-color-primary-lightest: #cffafe;
+
+  --ifm-background-color: #040c18;
+  --ifm-background-surface-color: #07111f;
+
+  --ifm-font-color-base: #dbe5ef;
+  --ifm-heading-color: #ffffff;
+
+  --ifm-navbar-height: 76px;
+  --ifm-footer-background-color: #020a15;
+
   --ifm-code-font-size: 95%;
-  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
+  --ifm-global-radius: 10px;
 }
 
-/* For readability concerns, you should choose a lighter palette in dark mode. */
-[data-theme='dark'] {
-  --ifm-color-primary: #25c2a0;
-  --ifm-color-primary-dark: #21af90;
-  --ifm-color-primary-darker: #1fa588;
-  --ifm-color-primary-darkest: #1a8870;
-  --ifm-color-primary-light: #29d5b0;
-  --ifm-color-primary-lighter: #32d8b4;
-  --ifm-color-primary-lightest: #4fddbf;
-  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
+[data-theme="dark"] {
+  --ifm-background-color: #040c18;
+  --ifm-background-surface-color: #07111f;
+  --ifm-font-color-base: #dbe5ef;
+  --ifm-heading-color: #ffffff;
 }
+
+
+/* ==========================================
+   Base Page Styling
+========================================== */
+
+html,
+body {
+  background: #040c18;
+}
+
+body {
+  color: #dbe5ef;
+}
+
+main {
+  background: #040c18;
+}
+
+a {
+  transition:
+    color 0.2s ease,
+    background 0.2s ease,
+    border-color 0.2s ease;
+}
+
+
+/* ==========================================
+   HomeAuto Navbar
+========================================== */
 :root {
-  --background: #0b1220;
-  --surface: #111827;
-  --card: rgba(17,24,39,.7);
-
-  --primary: #38bdf8;
-  --primary-light: #7dd3fc;
-
-  --success: #22c55e;
-  --warning: #f59e0b;
-  --danger: #ef4444;
-
-  --text: #ffffff;
-  --muted: #94a3b8;
-
-  --radius: 20px;
-
-  --shadow:
-    0 20px 60px rgba(0,0,0,.45);
+  --ifm-navbar-height: 80px;
 }
-:root {
-  --surface: rgba(17, 24, 39, 0.72);
-  --surface-hover: rgba(17, 24, 39, 0.9);
+.navbar {
+  height: 80px;
+  min-height: 80px;
 
-  --primary: #38bdf8;
-  --success: #22c55e;
-  --warning: #f59e0b;
-  --danger: #ef4444;
+  padding: 0 18px;
 
-  --text: #ffffff;
-  --muted: #94a3b8;
+  background:
+    linear-gradient(
+      90deg,
+      #020a15 0%,
+      #06101d 100%
+    );
 
-  --radius: 20px;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.12);
 
-  --shadow:
-    0 20px 50px rgba(0,0,0,.35);
-
-  --transition: .3s ease;
-}
-.architectureDiagram {
-  margin: 2rem 0;
-  padding: 1.25rem;
-  border: 1px solid var(--ifm-color-emphasis-300);
-  border-radius: 18px;
-  background: var(--ifm-background-surface-color);
-  box-shadow: 0 12px 32px rgba(15, 23, 42, 0.08);
-  overflow-x: auto;
+  box-shadow: none;
 }
 
-.architectureDiagram img {
-  display: block;
+.navbar__inner {
+  display: flex;
+  align-items: center;
+
   width: 100%;
-  min-width: 760px;
-  height: auto;
-  margin: 0 auto;
+  max-width: none;
+}
+
+.navbar__brand {
+  display: flex;
+  align-items: center;
+
+  min-width: 250px;
+  margin-right: 34px;
+
+  overflow: visible;
+}
+
+.navbar__logo {
+  display: flex;
+  align-items: center;
+
+  width: 220px !important;
+  height: 64px !important;
+
+  margin-right: 0;
+  overflow: visible;
+}
+
+.navbar__logo img {
+  display: block;
+
+  width: 220px !important;
+  height: auto !important;
+  max-width: none !important;
+  max-height: none !important;
+
+  object-fit: contain;
+}
+
+.navbar__logo:hover img {
+  transform: scale(1.04);
+
+  filter:
+    drop-shadow(
+      0 0 18px
+      rgba(34, 211, 238, 0.22)
+    );
+}
+
+.navbar__title {
+  color: #ffffff;
+
+  font-size: 1.45rem;
+  font-weight: 800;
+
+  letter-spacing: -0.5px;
+  line-height: 1;
+}
+
+.navbar__items {
+  align-items: center;
+  gap: 6px;
+}
+
+.navbar__item {
+  padding: 0;
+}
+
+.navbar__link {
+  padding: 12px 14px;
+
+  border-radius: 8px;
+
+  color: #dbe5ef;
+
+  font-size: 0.92rem;
+  font-weight: 650;
+
+  text-decoration: none;
+
+  transition:
+    color 0.2s ease,
+    background 0.2s ease,
+    transform 0.2s ease;
+}
+
+.navbar__link:hover {
+  color: #38bdf8;
+  background: rgba(56, 189, 248, 0.07);
+
+  text-decoration: none;
+  transform: translateY(-1px);
+}
+
+.navbar__link--active {
+  color: #38bdf8;
+  background: rgba(56, 189, 248, 0.08);
+}
+
+.navbar__items--right {
+  margin-left: auto;
+}
+
+.navbar__items--right .navbar__link {
+  padding-right: 10px;
+  padding-left: 10px;
+}
+
+.navbar__toggle {
+  color: #e2e8f0;
+}
+
+.navbar__toggle:hover {
+  color: #38bdf8;
+}
+
+
+/* ==========================================
+   Search Styling
+========================================== */
+
+.navbar__search {
+  margin-left: 12px;
+}
+
+.navbar__search-input {
+  width: 240px;
+  height: 42px;
+
+  padding: 0 42px 0 16px;
+
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  border-radius: 10px;
+
+  background: rgba(8, 20, 35, 0.85);
+
+  color: #e2e8f0;
+
+  font-size: 0.9rem;
+
+  outline: none;
+
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.navbar__search-input::placeholder {
+  color: #7f8ea3;
+}
+
+.navbar__search-input:focus {
+  border-color: rgba(56, 189, 248, 0.55);
+
+  background: rgba(10, 26, 43, 0.95);
+
+  box-shadow:
+    0 0 0 3px
+    rgba(56, 189, 248, 0.08);
+}
+
+
+/* ==========================================
+   Mobile Navbar Sidebar
+========================================== */
+
+.navbar-sidebar {
+  background:
+    linear-gradient(
+      180deg,
+      #040d19 0%,
+      #06101d 100%
+    );
+}
+
+.navbar-sidebar__brand {
+  border-bottom: 1px solid rgba(148, 163, 184, 0.12);
+}
+
+.navbar-sidebar__item {
+  color: #dbe5ef;
+}
+
+.navbar-sidebar .menu__link {
+  color: #cbd5e1;
+}
+
+.navbar-sidebar .menu__link:hover,
+.navbar-sidebar .menu__link--active {
+  color: #38bdf8;
+  background: rgba(56, 189, 248, 0.07);
+}
+
+
+/* ==========================================
+   Theme Consistency
+========================================== */
+
+[data-theme="light"] .navbar,
+[data-theme="dark"] .navbar {
+  background:
+    linear-gradient(
+      90deg,
+      #020a15 0%,
+      #06101d 100%
+    );
+}
+
+[data-theme="light"] .navbar__title,
+[data-theme="dark"] .navbar__title,
+[data-theme="light"] .navbar__link,
+[data-theme="dark"] .navbar__link {
+  color: #e2e8f0;
+}
+
+[data-theme="light"] .navbar__link:hover,
+[data-theme="dark"] .navbar__link:hover,
+[data-theme="light"] .navbar__link--active,
+[data-theme="dark"] .navbar__link--active {
+  color: #38bdf8;
+}
+
+
+/* ==========================================
+   Footer
+========================================== */
+
+.footer {
+  background:
+    linear-gradient(
+      180deg,
+      #030b16 0%,
+      #020812 100%
+    );
+
+  border-top: 1px solid rgba(148, 163, 184, 0.1);
+}
+
+.footer__title {
+  color: #ffffff;
+}
+
+.footer__link-item {
+  color: #aebccd;
+}
+
+.footer__link-item:hover {
+  color: #38bdf8;
+  text-decoration: none;
+}
+
+.footer__copyright {
+  color: #7f8ea3;
+}
+
+
+/* ==========================================
+   Documentation Pages
+========================================== */
+
+.theme-doc-markdown {
+  color: #dbe5ef;
+}
+
+.theme-doc-markdown h1,
+.theme-doc-markdown h2,
+.theme-doc-markdown h3,
+.theme-doc-markdown h4 {
+  color: #ffffff;
+}
+
+.theme-doc-markdown table {
+  border-color: rgba(148, 163, 184, 0.14);
+}
+
+.theme-doc-markdown thead tr {
+  background: rgba(15, 31, 52, 0.9);
+}
+
+.theme-doc-markdown tbody tr {
+  background: rgba(7, 17, 31, 0.65);
+}
+
+.theme-doc-markdown tbody tr:nth-child(2n) {
+  background: rgba(9, 22, 38, 0.72);
+}
+
+.theme-doc-markdown th,
+.theme-doc-markdown td {
+  border-color: rgba(148, 163, 184, 0.13);
+}
+
+.theme-doc-markdown blockquote {
+  border-left-color: #38bdf8;
+
+  background: rgba(56, 189, 248, 0.06);
+
+  color: #cbd5e1;
+}
+
+
+/* ==========================================
+   Code Blocks
+========================================== */
+
+.prism-code {
+  border: 1px solid rgba(148, 163, 184, 0.12);
+  border-radius: 12px;
+
+  background: #06101d !important;
+}
+
+code {
+  border: 1px solid rgba(56, 189, 248, 0.12);
+  border-radius: 5px;
+
+  background: rgba(56, 189, 248, 0.06);
+
+  color: #67e8f9;
+}
+
+
+/* ==========================================
+   Responsive — Medium Desktop
+========================================== */
+
+@media (max-width: 1180px) {
+  .navbar__brand {
+    margin-right: 24px;
+  }
+
+  .navbar__link {
+    padding-right: 10px;
+    padding-left: 10px;
+
+    font-size: 0.86rem;
+  }
+
+  .navbar__search-input {
+    width: 200px;
+  }
+}
+
+
+/* ==========================================
+   Responsive — Tablet and Mobile
+========================================== */
+
+@media (max-width: 996px) {
+  :root {
+    --ifm-navbar-height: 68px;
+  }
+
+  .navbar {
+    height: 68px;
+    min-height: 68px;
+
+    padding: 0 12px;
+  }
+
+  .navbar__brand {
+    gap: 8px;
+    margin-right: 0;
+  }
+
+  .navbar__logo {
+    width: 46px;
+    height: 46px;
+  }
+
+  .navbar__logo img {
+    width: 46px;
+    height: 46px;
+  }
+
+  .navbar__title {
+    font-size: 1.15rem;
+  }
+}
+
+
+/* ==========================================
+   Responsive — Small Mobile
+========================================== */
+
+@media (max-width: 480px) {
+  .navbar {
+    padding: 0 10px;
+  }
+
+  .navbar__logo,
+  .navbar__logo img {
+    width: 42px;
+    height: 42px;
+  }
+
+  .navbar__title {
+    max-width: 190px;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+    font-size: 1rem;
+  }
 }
