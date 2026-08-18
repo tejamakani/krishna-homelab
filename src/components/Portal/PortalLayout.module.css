@@ -4,7 +4,7 @@
 
 .portal {
   display: grid;
-  grid-template-columns: 238px minmax(0, 1fr) 320px;
+  grid-template-columns: 280px minmax(0, 1fr) 320px;
 
   min-height: calc(100vh - var(--ifm-navbar-height));
 
@@ -27,7 +27,7 @@
   min-width: 0;
   height: calc(100vh - var(--ifm-navbar-height));
 
-  padding: 18px 13px 16px;
+  padding: 18px 16px 16px;
 
   overflow-x: hidden;
   overflow-y: auto;
@@ -158,6 +158,8 @@
   list-style: none;
   user-select: none;
 
+  white-space: nowrap;
+
   transition:
     background 0.2s ease,
     color 0.2s ease;
@@ -190,9 +192,19 @@
   background: rgba(56, 189, 248, 0.05);
 }
 
+.sidebarGroupTitle {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.sidebarGroupTitle svg {
+  flex-shrink: 0;
+}
+
 
 /* =========================================
-   Architecture Navigation
+   Sidebar Navigation
 ========================================= */
 
 .architectureLinks {
@@ -236,8 +248,10 @@
 
   color: #aebccd;
 
-  font-size: 0.81rem;
+  font-size: 0.84rem;
   line-height: 1.35;
+
+  white-space: normal;
 
   text-decoration: none;
 
@@ -256,10 +270,6 @@
   transform: translateX(3px);
 }
 
-
-/* =========================================
-   Major Sidebar Entries
-========================================= */
 
 /* =========================================
    Major Sidebar Entries
@@ -865,12 +875,23 @@
 
 
 /* =========================================
-   Responsive — Large Desktop
+   Navbar Logo
 ========================================= */
 
-@media (max-width: 1500px) {
+.navbar__logo img {
+  height: 60px;
+  width: auto;
+  max-width: 190px;
+}
+
+
+/* =========================================
+   Responsive — Standard Desktop
+========================================= */
+
+@media (min-width: 1181px) and (max-width: 1500px) {
   .portal {
-    grid-template-columns: 238px minmax(0, 1fr) 300px;
+    grid-template-columns: 270px minmax(0, 1fr) 300px;
   }
 
   .portalCenter {
@@ -888,7 +909,7 @@
    Responsive — Laptop
 ========================================= */
 
-@media (max-width: 1180px) {
+@media (min-width: 997px) and (max-width: 1180px) {
   .portal {
     grid-template-columns: 250px minmax(0, 1fr);
   }
@@ -900,6 +921,10 @@
   .portalCenter {
     padding: 54px 34px 38px;
   }
+
+  .capabilityGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
 
@@ -909,18 +934,34 @@
 
 @media (max-width: 996px) {
   .portal {
-    grid-template-columns: 1fr;
+    display: block;
+
+    width: 100%;
+    max-width: 100%;
+
+    overflow-x: hidden;
   }
 
   .portalSidebar {
     display: none;
   }
 
+  .portalRightPanel {
+    display: none;
+  }
+
   .portalCenter {
-    padding: 46px 24px 34px;
+    width: 100%;
+    max-width: 100%;
+
+    padding: 42px 24px 34px;
+
+    overflow: hidden;
   }
 
   .centerHero {
+    max-width: 760px;
+
     margin-right: auto;
     margin-left: auto;
 
@@ -931,6 +972,10 @@
     margin-right: auto;
     margin-left: auto;
   }
+
+  .capabilityGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
 
@@ -939,29 +984,76 @@
 ========================================= */
 
 @media (max-width: 700px) {
+  .portal {
+    display: block;
+
+    width: 100%;
+    max-width: 100%;
+
+    overflow-x: hidden;
+  }
+
   .portalCenter {
-    padding: 38px 18px 30px;
+    width: 100%;
+    max-width: 100%;
+
+    padding: 30px 16px 28px;
+  }
+
+  .portalRightPanel {
+    display: none;
+  }
+
+  .centerHero {
+    width: 100%;
+
+    margin-bottom: 26px;
+
+    text-align: left;
   }
 
   .centerHeroTitle {
-    font-size: clamp(2.6rem, 12vw, 3.6rem);
+    font-size: clamp(2.4rem, 12vw, 3.25rem);
+    line-height: 1.05;
     letter-spacing: -1px;
   }
 
   .centerHeroDescription {
+    margin: 0;
+
     font-size: 1rem;
+    line-height: 1.6;
   }
 
   .capabilityGrid {
     grid-template-columns: 1fr;
+
+    gap: 16px;
+
+    margin: 26px 0 22px;
   }
 
   .capabilityCard {
+    width: 100%;
     min-height: auto;
+
+    padding: 28px 20px;
   }
 
   .projectOverview {
-    padding: 23px 20px;
+    width: 100%;
+
+    padding: 22px 18px;
+  }
+
+  .technologyPills {
+    gap: 7px;
+  }
+
+  .technologyPills span {
+    padding: 6px 10px;
+
+    font-size: 0.74rem;
   }
 
   .portalActions {
@@ -972,38 +1064,4 @@
   .secondaryPortalAction {
     width: 100%;
   }
-}
-.portalSidebar {
-  padding: 18px 16px 16px;
-}
-.architectureLinks a {
-  padding: 7px 8px 7px 13px;
-  font-size: 0.84rem;
-  white-space: normal;
-}
-.sidebarGroup summary {
-  font-size: 0.91rem;
-  white-space: nowrap;
-}
-@media (max-width: 1500px) {
-  .portal {
-    grid-template-columns: 270px minmax(0, 1fr) 300px;
-  }
-}
-.portal {
-  grid-template-columns: 280px minmax(0, 1fr) 320px;
-}
-.navbar__logo img {
-    height: 60px;
-    width: auto;
-    max-width: 190px;
-}
-.sidebarGroupTitle {
-  display: flex;
-  align-items: center;
-  gap: 9px;
-}
-
-.sidebarGroupTitle svg {
-  flex-shrink: 0;
 }
