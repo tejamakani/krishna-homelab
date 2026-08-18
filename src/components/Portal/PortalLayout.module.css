@@ -998,3 +998,12 @@
     width: auto;
     max-width: 190px;
 }
+.sidebarGroupTitle {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.sidebarGroupTitle svg {
+  flex-shrink: 0;
+}

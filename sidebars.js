@@ -2,111 +2,241 @@ const sidebars = {
   tutorialSidebar: [
     'intro',
 
+    // ==========================================
+    // Part I — HomeLab
+    // ==========================================
     {
       type: 'category',
-      label: '📘 Part I — Engineering Foundation',
+      label: '🧪 Lab Setup',
       collapsed: false,
       link: {
         type: 'generated-index',
-        title: 'Part I — Engineering Foundation',
+        title: 'Part I — HomeLab',
         description:
-          'Learn the principles, standards, and engineering process behind the Makani Home Lab.',
-        slug: '/engineering-foundation',
+          'Design, build, test, and validate the Makani HomeAuto development environment.',
+        slug: '/homelab',
       },
+
       items: [
-        'playbook/vision',
-        'playbook/documentation-philosophy',
-        'playbook/engineering-principles',
-        'playbook/architecture-standards',
-        'playbook/adr-framework',
-        'playbook/writing-standards',
-        'playbook/verification-standards',
-        'playbook/engineering-journal',
-        'playbook/release-management',
-        'playbook/design-reviews',
-        'playbook/engineers-corner',
+        {
+          type: 'doc',
+          id: 'homelab/purpose',
+          label: '01 · Purpose',
+        },
+
+        {
+          type: 'doc',
+          id: 'homelab/architecture',
+          label: '02 · Architecture',
+        },
+
+        {
+          type: 'category',
+          label: '03 · Implementation',
+          collapsed: false,
+
+          items: [
+            {
+              type: 'doc',
+              id: 'homelab/implementation/overview',
+              label: 'Overview',
+            },
+
+            {
+              type: 'doc',
+              id: 'homelab/implementation/windows-host',
+              label: 'Windows Host',
+            },
+
+            {
+              type: 'doc',
+              id: 'homelab/implementation/ubuntu-vm',
+              label: 'Ubuntu VM',
+            },
+
+            {
+              type: 'doc',
+              id: 'homelab/implementation/docker',
+              label: 'Docker',
+            },
+
+            {
+              type: 'doc',
+              id: 'homelab/implementation/portainer',
+              label: 'Portainer',
+            },
+
+            {
+              type: 'doc',
+              id: 'homelab/implementation/dozzle',
+              label: 'Dozzle',
+            },
+
+            {
+              type: 'doc',
+              id: 'homelab/implementation/mqtt',
+              label: 'Mosquitto MQTT',
+            },
+
+            {
+              type: 'doc',
+              id: 'homelab/implementation/frigate',
+              label: 'Frigate AI',
+            },
+
+            {
+              type: 'doc',
+              id: 'homelab/implementation/cameras',
+              label: 'Camera Integration',
+            },
+
+            {
+              type: 'doc',
+              id: 'homelab/implementation/object-detection',
+              label: 'Object Detection',
+            },
+
+            {
+              type: 'doc',
+              id: 'homelab/implementation/face-recognition',
+              label: 'Face Recognition',
+            },
+
+            {
+              type: 'doc',
+              id: 'homelab/implementation/lpr',
+              label: 'License Plate Recognition',
+            },
+
+            {
+              type: 'doc',
+              id: 'homelab/implementation/home-assistant',
+              label: 'Home Assistant',
+            },
+          ],
+        },
+
+        {
+          type: 'doc',
+          id: 'homelab/challenges',
+          label: '04 · Challenges Faced',
+        },
       ],
     },
 
+    // ==========================================
+    // Part II — Production
+    // ==========================================
     {
       type: 'category',
-      label: '💻 Part II — Platform',
+      label: '▣ Production',
       collapsed: false,
       link: {
         type: 'generated-index',
-        title: 'Part II — Platform',
+        title: 'Part II — Production',
         description:
-          'Build the operating-system, virtualization, networking, storage, and container foundation.',
-        slug: '/platform',
+          'Design and deploy the production Makani HomeAuto infrastructure.',
+        slug: '/production',
       },
-      items: [
-        'platform/ubuntu-server',
-        'hardware',
-      ],
-    },
 
-    {
-      type: 'category',
-      label: '🏗️ Part III — Architecture',
-      collapsed: true,
-      link: {
-        type: 'generated-index',
-        title: 'Part III — Architecture',
-        description:
-          'Explore the end-to-end architecture, service relationships, networks, and data flows.',
-        slug: '/architecture-overview',
-      },
       items: [
-        'architecture/overall-architecture',
-        'network/topology',
-      ],
-    },
+        {
+          type: 'doc',
+          id: 'production/purpose',
+          label: '01 · Purpose',
+        },
 
-    {
-      type: 'category',
-      label: '🖥️ Proxmox',
-      items: [
-        'proxmox/install',
-        'proxmox/networking',
-        'proxmox/backup',
-      ],
-    },
+        {
+          type: 'doc',
+          id: 'production/architecture',
+          label: '02 · Architecture',
+        },
 
-    {
-      type: 'category',
-      label: '🎥 Frigate AI',
-      items: [
-        'frigate/installation',
-        'frigate/object-detection',
-        'frigate/coral-tpu',
-      ],
-    },
+        {
+          type: 'category',
+          label: '03 · Implementation',
+          collapsed: true,
 
-    {
-      type: 'category',
-      label: '🏡 Home Assistant',
-      items: [
-        'homeassistant/installation',
-        'homeassistant/automations',
-        'homeassistant/dashboards',
-      ],
-    },
+          items: [
+            {
+              type: 'doc',
+              id: 'production/implementation/overview',
+              label: 'Overview',
+            },
 
-    {
-      type: 'category',
-      label: '🌐 Networking',
-      items: [
-        'network/topology',
-        'network/vlans',
-        'network/firewall',
-      ],
-    },
+            {
+              type: 'doc',
+              id: 'production/implementation/bare-metal',
+              label: 'Bare Metal',
+            },
 
-    {
-      type: 'category',
-      label: '🛠️ Troubleshooting',
-      items: [
-        'troubleshooting/common-issues',
+            {
+              type: 'doc',
+              id: 'production/implementation/proxmox',
+              label: 'Proxmox VE',
+            },
+
+            {
+              type: 'doc',
+              id: 'production/implementation/networking',
+              label: 'Networking',
+            },
+
+            {
+              type: 'doc',
+              id: 'production/implementation/storage',
+              label: 'Storage',
+            },
+
+            {
+              type: 'doc',
+              id: 'production/implementation/vm-provisioning',
+              label: 'VM Provisioning',
+            },
+
+            {
+              type: 'doc',
+              id: 'production/implementation/home-assistant',
+              label: 'Home Assistant',
+            },
+
+            {
+              type: 'doc',
+              id: 'production/implementation/mqtt',
+              label: 'Mosquitto MQTT',
+            },
+
+            {
+              type: 'doc',
+              id: 'production/implementation/frigate',
+              label: 'Frigate AI',
+            },
+
+            {
+              type: 'doc',
+              id: 'production/implementation/monitoring',
+              label: 'Monitoring',
+            },
+
+            {
+              type: 'doc',
+              id: 'production/implementation/backup',
+              label: 'Backup & Recovery',
+            },
+
+            {
+              type: 'doc',
+              id: 'production/implementation/remote-access',
+              label: 'Remote Access',
+            },
+          ],
+        },
+
+        {
+          type: 'doc',
+          id: 'production/challenges',
+          label: '04 · Challenges Faced',
+        },
       ],
     },
   ],
