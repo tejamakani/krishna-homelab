@@ -59,7 +59,11 @@ const sidebars = {
               id: 'homelab/implementation/docker',
               label: 'Docker',
             },
-
+            {
+              type: 'doc',
+              id: 'homelab/implementation/service-management',
+              label: 'Service Management',
+            },           
             {
               type: 'doc',
               id: 'homelab/implementation/portainer',
