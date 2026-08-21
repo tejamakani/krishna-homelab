@@ -1043,3 +1043,6 @@ html[data-theme="light"] {
     font-size: 1.25rem;
   }
 }
+html {
+  scroll-padding-top: 100px;
+}
