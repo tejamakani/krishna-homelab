@@ -1,8 +1,76 @@
 /* ==========================================
-   Global Theme Variables
+   Makani HomeAuto
+   Global Docusaurus Theme
+========================================== */
+
+
+/* ==========================================
+   LIGHT THEME — DEFAULT
 ========================================== */
 
 :root {
+  --ifm-color-primary: #0284c7;
+  --ifm-color-primary-dark: #0369a1;
+  --ifm-color-primary-darker: #075985;
+  --ifm-color-primary-darkest: #0c4a6e;
+  --ifm-color-primary-light: #0ea5e9;
+  --ifm-color-primary-lighter: #38bdf8;
+  --ifm-color-primary-lightest: #7dd3fc;
+
+  --ifm-background-color: #f8fafc;
+  --ifm-background-surface-color: #ffffff;
+
+  --ifm-font-color-base: #334155;
+  --ifm-heading-color: #0f172a;
+
+  --ifm-navbar-height: 80px;
+
+  --ifm-footer-background-color: #020a15;
+
+  --ifm-code-font-size: 95%;
+  --ifm-global-radius: 10px;
+
+  /* HomeAuto Documentation Tokens */
+
+  --homeauto-page-bg: #f8fafc;
+  --homeauto-page-surface: #ffffff;
+
+  --homeauto-sidebar-bg-start: #f8fafc;
+  --homeauto-sidebar-bg-end: #eef4f8;
+
+  --homeauto-text-primary: #0f172a;
+  --homeauto-text-secondary: #334155;
+  --homeauto-text-muted: #64748b;
+
+  --homeauto-border: rgba(15, 23, 42, 0.13);
+  --homeauto-border-soft: rgba(15, 23, 42, 0.08);
+
+  --homeauto-surface-soft: #f1f5f9;
+  --homeauto-surface-hover: rgba(14, 165, 233, 0.07);
+
+  --homeauto-code-bg: #f1f5f9;
+  --homeauto-code-text: #0369a1;
+
+  --homeauto-codeblock-bg: #0b1728;
+
+  --homeauto-table-head: #e7eef6;
+  --homeauto-table-row: #ffffff;
+  --homeauto-table-row-alt: #f8fafc;
+
+  --homeauto-accent: #0284c7;
+  --homeauto-accent-bright: #0ea5e9;
+  --homeauto-accent-cyan: #0891b2;
+  --homeauto-accent-teal: #0f9f8d;
+
+  --homeauto-shadow: rgba(15, 23, 42, 0.08);
+}
+
+
+/* ==========================================
+   DARK THEME
+========================================== */
+
+html[data-theme="dark"] {
   --ifm-color-primary: #22d3ee;
   --ifm-color-primary-dark: #06b6d4;
   --ifm-color-primary-darker: #0891b2;
@@ -17,36 +85,59 @@
   --ifm-font-color-base: #dbe5ef;
   --ifm-heading-color: #ffffff;
 
-  --ifm-navbar-height: 76px;
-  --ifm-footer-background-color: #020a15;
+  --homeauto-page-bg: #040c18;
+  --homeauto-page-surface: #07111f;
 
-  --ifm-code-font-size: 95%;
-  --ifm-global-radius: 10px;
-}
+  --homeauto-sidebar-bg-start: #040d19;
+  --homeauto-sidebar-bg-end: #06101d;
 
-[data-theme="dark"] {
-  --ifm-background-color: #040c18;
-  --ifm-background-surface-color: #07111f;
-  --ifm-font-color-base: #dbe5ef;
-  --ifm-heading-color: #ffffff;
+  --homeauto-text-primary: #ffffff;
+  --homeauto-text-secondary: #dbe5ef;
+  --homeauto-text-muted: #94a3b8;
+
+  --homeauto-border: rgba(148, 163, 184, 0.14);
+  --homeauto-border-soft: rgba(148, 163, 184, 0.09);
+
+  --homeauto-surface-soft: rgba(15, 23, 42, 0.54);
+  --homeauto-surface-hover: rgba(56, 189, 248, 0.07);
+
+  --homeauto-code-bg: rgba(56, 189, 248, 0.06);
+  --homeauto-code-text: #67e8f9;
+
+  --homeauto-codeblock-bg: #06101d;
+
+  --homeauto-table-head: rgba(15, 31, 52, 0.9);
+  --homeauto-table-row: rgba(7, 17, 31, 0.65);
+  --homeauto-table-row-alt: rgba(9, 22, 38, 0.72);
+
+  --homeauto-accent: #22d3ee;
+  --homeauto-accent-bright: #38bdf8;
+  --homeauto-accent-cyan: #22d3ee;
+  --homeauto-accent-teal: #2dd4bf;
+
+  --homeauto-shadow: rgba(0, 0, 0, 0.2);
 }
 
 
 /* ==========================================
-   Base Page Styling
+   BASE PAGE
 ========================================== */
 
 html,
 body {
-  background: #040c18;
+  background: var(--homeauto-page-bg);
 }
 
 body {
-  color: #dbe5ef;
+  color: var(--homeauto-text-secondary);
+
+  transition:
+    background-color 0.25s ease,
+    color 0.25s ease;
 }
 
 main {
-  background: #040c18;
+  background: var(--homeauto-page-bg);
 }
 
 a {
@@ -58,11 +149,10 @@ a {
 
 
 /* ==========================================
-   HomeAuto Navbar
+   NAVBAR
+   Deliberately remains dark in both themes
 ========================================== */
-:root {
-  --ifm-navbar-height: 80px;
-}
+
 .navbar {
   height: 80px;
   min-height: 80px;
@@ -94,6 +184,7 @@ a {
   align-items: center;
 
   min-width: 250px;
+
   margin-right: 34px;
 
   overflow: visible;
@@ -107,6 +198,7 @@ a {
   height: 64px !important;
 
   margin-right: 0;
+
   overflow: visible;
 }
 
@@ -115,10 +207,15 @@ a {
 
   width: 220px !important;
   height: auto !important;
+
   max-width: none !important;
   max-height: none !important;
 
   object-fit: contain;
+
+  transition:
+    transform 0.2s ease,
+    filter 0.2s ease;
 }
 
 .navbar__logo:hover img {
@@ -143,6 +240,7 @@ a {
 
 .navbar__items {
   align-items: center;
+
   gap: 6px;
 }
 
@@ -170,14 +268,17 @@ a {
 
 .navbar__link:hover {
   color: #38bdf8;
+
   background: rgba(56, 189, 248, 0.07);
 
   text-decoration: none;
+
   transform: translateY(-1px);
 }
 
 .navbar__link--active {
   color: #38bdf8;
+
   background: rgba(56, 189, 248, 0.08);
 }
 
@@ -200,7 +301,7 @@ a {
 
 
 /* ==========================================
-   Search Styling
+   SEARCH
 ========================================== */
 
 .navbar__search {
@@ -246,7 +347,8 @@ a {
 
 
 /* ==========================================
-   Mobile Navbar Sidebar
+   MOBILE NAVBAR DRAWER
+   Remains branded dark
 ========================================== */
 
 .navbar-sidebar {
@@ -273,16 +375,17 @@ a {
 .navbar-sidebar .menu__link:hover,
 .navbar-sidebar .menu__link--active {
   color: #38bdf8;
+
   background: rgba(56, 189, 248, 0.07);
 }
 
 
 /* ==========================================
-   Theme Consistency
+   NAVBAR THEME CONSISTENCY
 ========================================== */
 
-[data-theme="light"] .navbar,
-[data-theme="dark"] .navbar {
+html[data-theme="light"] .navbar,
+html[data-theme="dark"] .navbar {
   background:
     linear-gradient(
       90deg,
@@ -291,23 +394,24 @@ a {
     );
 }
 
-[data-theme="light"] .navbar__title,
-[data-theme="dark"] .navbar__title,
-[data-theme="light"] .navbar__link,
-[data-theme="dark"] .navbar__link {
+html[data-theme="light"] .navbar__title,
+html[data-theme="dark"] .navbar__title,
+html[data-theme="light"] .navbar__link,
+html[data-theme="dark"] .navbar__link {
   color: #e2e8f0;
 }
 
-[data-theme="light"] .navbar__link:hover,
-[data-theme="dark"] .navbar__link:hover,
-[data-theme="light"] .navbar__link--active,
-[data-theme="dark"] .navbar__link--active {
+html[data-theme="light"] .navbar__link:hover,
+html[data-theme="dark"] .navbar__link:hover,
+html[data-theme="light"] .navbar__link--active,
+html[data-theme="dark"] .navbar__link--active {
   color: #38bdf8;
 }
 
 
 /* ==========================================
-   Footer
+   FOOTER
+   Remains dark in both themes
 ========================================== */
 
 .footer {
@@ -331,6 +435,7 @@ a {
 
 .footer__link-item:hover {
   color: #38bdf8;
+
   text-decoration: none;
 }
 
@@ -340,76 +445,503 @@ a {
 
 
 /* ==========================================
-   Documentation Pages
+   DOCUMENTATION PAGE SHELL
 ========================================== */
 
 .theme-doc-markdown {
-  color: #dbe5ef;
+  color: var(--homeauto-text-secondary);
 }
 
 .theme-doc-markdown h1,
 .theme-doc-markdown h2,
 .theme-doc-markdown h3,
-.theme-doc-markdown h4 {
-  color: #ffffff;
+.theme-doc-markdown h4,
+.theme-doc-markdown h5,
+.theme-doc-markdown h6 {
+  color: var(--homeauto-text-primary);
 }
 
+.theme-doc-markdown p,
+.theme-doc-markdown li {
+  color: var(--homeauto-text-secondary);
+}
+
+.theme-doc-markdown strong {
+  color: var(--homeauto-text-primary);
+}
+
+.theme-doc-markdown a {
+  color: var(--homeauto-accent);
+}
+
+.theme-doc-markdown a:hover {
+  color: var(--homeauto-accent-bright);
+}
+
+
+/* ==========================================
+   DOC MAIN CONTAINER
+========================================== */
+
+[class*="docMainContainer"] {
+  background: var(--homeauto-page-bg);
+}
+
+[class*="docItemContainer"] {
+  color: var(--homeauto-text-secondary);
+}
+
+
+/* ==========================================
+   DOCUMENTATION BREADCRUMBS
+========================================== */
+
+.breadcrumbs__link {
+  color: var(--homeauto-text-muted);
+}
+
+.breadcrumbs__link:hover {
+  color: var(--homeauto-accent);
+}
+
+.breadcrumbs__item--active .breadcrumbs__link {
+  color: var(--homeauto-accent);
+}
+
+
+/* ==========================================
+   DOCUMENTATION TABLES
+========================================== */
+
 .theme-doc-markdown table {
-  border-color: rgba(148, 163, 184, 0.14);
+  overflow: hidden;
+
+  border: 1px solid var(--homeauto-border);
+  border-radius: 10px;
+
+  box-shadow:
+    0 8px 24px
+    var(--homeauto-shadow);
 }
 
 .theme-doc-markdown thead tr {
-  background: rgba(15, 31, 52, 0.9);
+  background: var(--homeauto-table-head);
 }
 
 .theme-doc-markdown tbody tr {
-  background: rgba(7, 17, 31, 0.65);
+  background: var(--homeauto-table-row);
 }
 
 .theme-doc-markdown tbody tr:nth-child(2n) {
-  background: rgba(9, 22, 38, 0.72);
+  background: var(--homeauto-table-row-alt);
 }
 
 .theme-doc-markdown th,
 .theme-doc-markdown td {
-  border-color: rgba(148, 163, 184, 0.13);
+  border-color: var(--homeauto-border);
+
+  color: var(--homeauto-text-secondary);
 }
 
-.theme-doc-markdown blockquote {
-  border-left-color: #38bdf8;
+.theme-doc-markdown th {
+  color: var(--homeauto-text-primary);
 
-  background: rgba(56, 189, 248, 0.06);
-
-  color: #cbd5e1;
+  font-weight: 750;
 }
 
 
 /* ==========================================
-   Code Blocks
+   BLOCKQUOTES
+========================================== */
+
+.theme-doc-markdown blockquote {
+  border-left-color: var(--homeauto-accent-bright);
+
+  background:
+    color-mix(
+      in srgb,
+      var(--homeauto-accent) 7%,
+      transparent
+    );
+
+  color: var(--homeauto-text-secondary);
+}
+
+
+/* ==========================================
+   INLINE CODE
+========================================== */
+
+code {
+  border: 1px solid
+    color-mix(
+      in srgb,
+      var(--homeauto-accent) 14%,
+      transparent
+    );
+
+  border-radius: 5px;
+
+  background: var(--homeauto-code-bg);
+
+  color: var(--homeauto-code-text);
+}
+
+
+/* ==========================================
+   FENCED CODE BLOCKS
 ========================================== */
 
 .prism-code {
-  border: 1px solid rgba(148, 163, 184, 0.12);
+  border: 1px solid rgba(148, 163, 184, 0.16);
   border-radius: 12px;
 
-  background: #06101d !important;
+  background: var(--homeauto-codeblock-bg) !important;
 }
 
-code {
-  border: 1px solid rgba(56, 189, 248, 0.12);
-  border-radius: 5px;
+/*
+   Keep fenced code blocks dark in both themes.
+   This provides consistent syntax highlighting.
+*/
 
-  background: rgba(56, 189, 248, 0.06);
-
-  color: #67e8f9;
+html[data-theme="light"] .prism-code,
+html[data-theme="dark"] .prism-code {
+  background: #071321 !important;
 }
 
 
 /* ==========================================
-   Responsive — Medium Desktop
+   DOC CODE BLOCK WRAPPER
+========================================== */
+
+.theme-code-block {
+  border-radius: 12px;
+
+  box-shadow:
+    0 8px 24px
+    rgba(15, 23, 42, 0.08);
+}
+
+html[data-theme="dark"] .theme-code-block {
+  box-shadow:
+    0 10px 28px
+    rgba(0, 0, 0, 0.2);
+}
+
+
+/* ==========================================
+   DOC PAGINATION
+========================================== */
+
+.pagination-nav__link {
+  border: 1px solid var(--homeauto-border);
+  border-radius: 10px;
+
+  background: var(--homeauto-page-surface);
+
+  color: var(--homeauto-text-secondary);
+}
+
+.pagination-nav__link:hover {
+  border-color:
+    color-mix(
+      in srgb,
+      var(--homeauto-accent) 38%,
+      var(--homeauto-border)
+    );
+
+  background:
+    color-mix(
+      in srgb,
+      var(--homeauto-accent) 5%,
+      var(--homeauto-page-surface)
+    );
+}
+
+.pagination-nav__label {
+  color: var(--homeauto-text-primary);
+}
+
+.pagination-nav__sublabel {
+  color: var(--homeauto-text-muted);
+}
+
+
+/* ==========================================
+   DOC TABLE OF CONTENTS — RIGHT
+========================================== */
+
+.table-of-contents {
+  border-left-color: var(--homeauto-border);
+}
+
+.table-of-contents__link {
+  color: var(--homeauto-text-muted);
+}
+
+.table-of-contents__link:hover {
+  color: var(--homeauto-accent);
+}
+
+.table-of-contents__link--active {
+  color: var(--homeauto-accent);
+
+  font-weight: 650;
+}
+
+
+/* ==========================================
+   HOMEAUTO DOCUMENTATION SIDEBAR
+========================================== */
+
+.theme-doc-sidebar-container {
+  background:
+    linear-gradient(
+      180deg,
+      var(--homeauto-sidebar-bg-start) 0%,
+      var(--homeauto-sidebar-bg-end) 100%
+    );
+
+  border-right: 1px solid var(--homeauto-border) !important;
+
+  scrollbar-width: thin;
+
+  scrollbar-color:
+    color-mix(
+      in srgb,
+      var(--homeauto-accent) 35%,
+      transparent
+    )
+    transparent;
+
+  transition:
+    background 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.theme-doc-sidebar-menu {
+  padding: 18px 12px;
+}
+
+.theme-doc-sidebar-menu .menu__list-item {
+  margin: 2px 0;
+}
+
+
+/* ==========================================
+   SIDEBAR MAIN CATEGORIES
+========================================== */
+
+.theme-doc-sidebar-menu
+> .menu__list
+> .menu__list-item
+> .menu__list-item-collapsible {
+  margin-top: 10px;
+  padding: 4px 2px;
+
+  border-bottom: 1px solid var(--homeauto-border-soft);
+}
+
+.theme-doc-sidebar-menu
+> .menu__list
+> .menu__list-item
+> .menu__list-item-collapsible
+.menu__link {
+  color: var(--homeauto-accent-teal);
+
+  font-size: 0.95rem;
+  font-weight: 800;
+}
+
+
+/* ==========================================
+   STANDARD SIDEBAR LINKS
+========================================== */
+
+.theme-doc-sidebar-menu .menu__link {
+  padding: 8px 11px;
+
+  border-radius: 8px;
+
+  color: var(--homeauto-text-muted);
+
+  font-size: 0.86rem;
+  line-height: 1.35;
+
+  transition:
+    color 0.2s ease,
+    background 0.2s ease,
+    transform 0.2s ease;
+}
+
+.theme-doc-sidebar-menu .menu__link:hover {
+  color: var(--homeauto-text-primary);
+
+  background: var(--homeauto-surface-hover);
+
+  text-decoration: none;
+}
+
+
+/* ==========================================
+   ACTIVE SIDEBAR DOCUMENT
+========================================== */
+
+.theme-doc-sidebar-menu .menu__link--active {
+  color: var(--homeauto-accent-cyan);
+
+  background:
+    color-mix(
+      in srgb,
+      var(--homeauto-accent) 10%,
+      transparent
+    );
+
+  font-weight: 700;
+}
+
+
+/* ==========================================
+   NESTED IMPLEMENTATION ITEMS
+========================================== */
+
+.theme-doc-sidebar-menu
+.menu__list
+.menu__list {
+  margin-left: 10px;
+  padding-left: 10px;
+
+  border-left: 1px solid
+    color-mix(
+      in srgb,
+      var(--homeauto-accent) 18%,
+      transparent
+    );
+}
+
+.theme-doc-sidebar-menu
+.menu__list
+.menu__list
+.menu__link {
+  padding-top: 7px;
+  padding-bottom: 7px;
+
+  font-size: 0.82rem;
+}
+
+
+/* ==========================================
+   SIDEBAR CARET
+========================================== */
+
+.theme-doc-sidebar-menu .menu__caret::before {
+  opacity: 0.7;
+}
+
+
+/* ==========================================
+   SIDEBAR SCROLLBAR
+========================================== */
+
+.theme-doc-sidebar-container::-webkit-scrollbar {
+  width: 6px;
+}
+
+.theme-doc-sidebar-container::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.theme-doc-sidebar-container::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+
+  background:
+    color-mix(
+      in srgb,
+      var(--homeauto-accent) 35%,
+      transparent
+    );
+}
+
+
+/* ==========================================
+   DOC MOBILE SIDEBAR
+========================================== */
+
+.theme-doc-sidebar-menu.menu {
+  background: transparent;
+}
+
+html[data-theme="light"] .theme-doc-sidebar-menu.menu {
+  color: var(--homeauto-text-secondary);
+}
+
+html[data-theme="dark"] .theme-doc-sidebar-menu.menu {
+  color: var(--homeauto-text-secondary);
+}
+
+
+/* ==========================================
+   ADMONITIONS
+========================================== */
+
+.alert {
+  border-color: var(--homeauto-border);
+}
+
+html[data-theme="light"] .alert {
+  color: var(--homeauto-text-secondary);
+}
+
+html[data-theme="dark"] .alert {
+  color: var(--homeauto-text-secondary);
+}
+
+
+/* ==========================================
+   HORIZONTAL RULES
+========================================== */
+
+.theme-doc-markdown hr {
+  border-color: var(--homeauto-border);
+}
+
+
+/* ==========================================
+   DETAILS / DISCLOSURES
+========================================== */
+
+details {
+  border-color: var(--homeauto-border);
+}
+
+details > summary {
+  color: var(--homeauto-text-primary);
+}
+
+
+/* ==========================================
+   SCROLLBARS — GENERAL
+========================================== */
+
+html[data-theme="dark"] {
+  scrollbar-color:
+    rgba(56, 189, 248, 0.25)
+    #040c18;
+}
+
+html[data-theme="light"] {
+  scrollbar-color:
+    rgba(2, 132, 199, 0.28)
+    #f8fafc;
+}
+
+
+/* ==========================================
+   RESPONSIVE — MEDIUM DESKTOP
 ========================================== */
 
 @media (max-width: 1180px) {
+
   .navbar__brand {
     margin-right: 24px;
   }
@@ -428,10 +960,11 @@ code {
 
 
 /* ==========================================
-   Responsive — Tablet and Mobile
+   RESPONSIVE — TABLET / MOBILE
 ========================================== */
 
 @media (max-width: 996px) {
+
   :root {
     --ifm-navbar-height: 68px;
   }
@@ -444,39 +977,48 @@ code {
   }
 
   .navbar__brand {
+    min-width: 0;
+
     gap: 8px;
     margin-right: 0;
   }
 
   .navbar__logo {
-    width: 46px;
-    height: 46px;
+    width: 46px !important;
+    height: 46px !important;
   }
 
   .navbar__logo img {
-    width: 46px;
-    height: 46px;
+    width: 46px !important;
+    height: 46px !important;
+
+    object-fit: contain;
   }
 
   .navbar__title {
     font-size: 1.15rem;
   }
+
+  .theme-doc-sidebar-menu {
+    padding-top: 14px;
+  }
 }
 
 
 /* ==========================================
-   Responsive — Small Mobile
+   RESPONSIVE — SMALL MOBILE
 ========================================== */
 
 @media (max-width: 480px) {
+
   .navbar {
     padding: 0 10px;
   }
 
   .navbar__logo,
   .navbar__logo img {
-    width: 42px;
-    height: 42px;
+    width: 42px !important;
+    height: 42px !important;
   }
 
   .navbar__title {
@@ -488,120 +1030,16 @@ code {
 
     font-size: 1rem;
   }
-}
-/* ==========================================
-   HomeAuto Documentation Sidebar
-========================================== */
 
-.theme-doc-sidebar-container {
-  background:
-    linear-gradient(
-      180deg,
-      #040d19 0%,
-      #06101d 100%
-    );
+  .theme-doc-markdown h1 {
+    font-size: 2rem;
+  }
 
-  border-right: 1px solid rgba(148, 163, 184, 0.14) !important;
-}
+  .theme-doc-markdown h2 {
+    font-size: 1.55rem;
+  }
 
-.theme-doc-sidebar-menu {
-  padding: 18px 12px;
-}
-
-.theme-doc-sidebar-menu .menu__list-item {
-  margin: 2px 0;
-}
-
-/* Main categories */
-
-.theme-doc-sidebar-menu > .menu__list > .menu__list-item >
-.menu__list-item-collapsible {
-  margin-top: 10px;
-  padding: 4px 2px;
-
-  border-bottom: 1px solid rgba(148, 163, 184, 0.11);
-}
-
-.theme-doc-sidebar-menu > .menu__list > .menu__list-item >
-.menu__list-item-collapsible .menu__link {
-  color: #2dd4bf;
-
-  font-size: 0.95rem;
-  font-weight: 800;
-}
-
-/* Standard links */
-
-.theme-doc-sidebar-menu .menu__link {
-  padding: 8px 11px;
-
-  border-radius: 8px;
-
-  color: #aebccd;
-
-  font-size: 0.86rem;
-  line-height: 1.35;
-
-  transition:
-    color 0.2s ease,
-    background 0.2s ease,
-    transform 0.2s ease;
-}
-
-.theme-doc-sidebar-menu .menu__link:hover {
-  color: #ffffff;
-
-  background: rgba(56, 189, 248, 0.07);
-
-  text-decoration: none;
-}
-
-/* Active document */
-
-.theme-doc-sidebar-menu .menu__link--active {
-  color: #22d3ee;
-
-  background: rgba(56, 189, 248, 0.1);
-
-  font-weight: 700;
-}
-
-/* Implementation nested items */
-
-.theme-doc-sidebar-menu .menu__list .menu__list {
-  margin-left: 10px;
-  padding-left: 10px;
-
-  border-left: 1px solid rgba(56, 189, 248, 0.14);
-}
-
-.theme-doc-sidebar-menu .menu__list .menu__list .menu__link {
-  padding-top: 7px;
-  padding-bottom: 7px;
-
-  font-size: 0.82rem;
-}
-
-/* Collapse arrow */
-
-.theme-doc-sidebar-menu .menu__caret::before {
-  opacity: 0.7;
-}
-
-/* Sidebar scrollbar */
-
-.theme-doc-sidebar-container {
-  scrollbar-width: thin;
-  scrollbar-color:
-    rgba(56, 189, 248, 0.25)
-    transparent;
-}
-
-.theme-doc-sidebar-container::-webkit-scrollbar {
-  width: 6px;
-}
-
-.theme-doc-sidebar-container::-webkit-scrollbar-thumb {
-  border-radius: 999px;
-  background: rgba(56, 189, 248, 0.25);
+  .theme-doc-markdown h3 {
+    font-size: 1.25rem;
+  }
 }
