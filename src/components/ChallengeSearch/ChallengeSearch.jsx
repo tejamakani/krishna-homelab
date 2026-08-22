@@ -461,6 +461,40 @@ const challenges = [
       "Lab and Production indicators were separated to keep environment health explicit.",
     link: "#challenge-environment-metrics",
   },
+
+  {
+    id: "alexa-face-race-condition",
+    title:
+      "Alexa Announces Unknown Person Before Face Recognition Completes",
+    category: "Alexa",
+    keywords: [
+      "alexa",
+      "echo dot",
+      "face recognition",
+      "frigate",
+      "home assistant",
+      "mqtt",
+      "unknown person",
+      "known person",
+      "race condition",
+      "sub_label",
+      "sub label",
+      "event id",
+      "event_id",
+      "recognized face",
+      "recognition pending",
+      "20 seconds",
+      "20 second",
+      "grace period",
+      "duplicate announcement",
+      "cooldown",
+      "media player",
+      "alexa media player",
+    ],
+    summary:
+      "Person detection occurred before Frigate face recognition completed, causing Alexa to announce an unknown person before the same event was later recognized.",
+    link: "#challenge-alexa-face-race-condition",
+  },
 ];
 
 export default function ChallengeSearch() {
@@ -471,22 +505,30 @@ export default function ChallengeSearch() {
     return [
       "All",
       ...Array.from(
-        new Set(challenges.map((challenge) => challenge.category))
+        new Set(
+          challenges.map(
+            (challenge) => challenge.category
+          )
+        )
       ).sort(),
     ];
   }, []);
 
   const results = useMemo(() => {
-    const normalizedQuery = query.trim().toLowerCase();
+    const normalizedQuery =
+      query.trim().toLowerCase();
 
     return challenges.filter((challenge) => {
       const categoryMatch =
-        category === "All" || challenge.category === category;
+        category === "All" ||
+        challenge.category === category;
 
       const searchableText = [
+        challenge.id,
         challenge.title,
         challenge.category,
         challenge.summary,
+        challenge.link,
         ...challenge.keywords,
       ]
         .join(" ")
@@ -494,7 +536,9 @@ export default function ChallengeSearch() {
 
       const queryMatch =
         normalizedQuery.length === 0 ||
-        searchableText.includes(normalizedQuery);
+        searchableText.includes(
+          normalizedQuery
+        );
 
       return categoryMatch && queryMatch;
     });
@@ -510,16 +554,23 @@ export default function ChallengeSearch() {
     setCategory("All");
   }
 
-  function handleChallengeClick(event, challenge) {
+  function handleChallengeClick(
+    event,
+    challenge
+  ) {
     event.preventDefault();
 
-    const targetId = challenge.link.replace("#", "");
-    const target = document.getElementById(targetId);
+    const targetId =
+      challenge.link.replace("#", "");
+
+    const target =
+      document.getElementById(targetId);
 
     if (!target) {
       console.warn(
         `Challenge section not found: ${targetId}`
       );
+
       return;
     }
 
@@ -543,22 +594,38 @@ export default function ChallengeSearch() {
             ISSUE FINDER
           </span>
 
-          <h2>Search HomeLab Challenges</h2>
+          <h2>
+            Search HomeLab Challenges
+          </h2>
 
           <p>
-            Search the known issue library by symptom,
-            service, technology, or error message.
+            Search the known issue library
+            by symptom, service, technology,
+            or error message.
           </p>
         </div>
 
-        <div className={styles.resultCounter}>
-          {results.length} / {challenges.length}
+        <div
+          className={
+            styles.resultCounter
+          }
+        >
+          {results.length} /{" "}
+          {challenges.length}
         </div>
       </div>
 
       <div className={styles.controls}>
-        <div className={styles.searchInputWrapper}>
-          <span className={styles.searchIcon}>
+        <div
+          className={
+            styles.searchInputWrapper
+          }
+        >
+          <span
+            className={
+              styles.searchIcon
+            }
+          >
             ⌕
           </span>
 
@@ -566,17 +633,23 @@ export default function ChallengeSearch() {
             type="search"
             value={query}
             onChange={(event) =>
-              setQuery(event.target.value)
+              setQuery(
+                event.target.value
+              )
             }
-            placeholder="Try: MQTT permissions, LPR, camera latency..."
+            placeholder="Try: MQTT permissions, LPR, camera latency, Alexa..."
             aria-label="Search HomeLab challenges"
           />
 
           {query && (
             <button
               type="button"
-              className={styles.clearInput}
-              onClick={() => setQuery("")}
+              className={
+                styles.clearInput
+              }
+              onClick={() =>
+                setQuery("")
+              }
               aria-label="Clear search"
             >
               ×
@@ -587,9 +660,13 @@ export default function ChallengeSearch() {
         <select
           value={category}
           onChange={(event) =>
-            setCategory(event.target.value)
+            setCategory(
+              event.target.value
+            )
           }
-          className={styles.categorySelect}
+          className={
+            styles.categorySelect
+          }
           aria-label="Filter challenges by category"
         >
           {categories.map((item) => (
@@ -602,10 +679,13 @@ export default function ChallengeSearch() {
           ))}
         </select>
 
-        {(query || category !== "All") && (
+        {(query ||
+          category !== "All") && (
           <button
             type="button"
-            className={styles.resetButton}
+            className={
+              styles.resetButton
+            }
             onClick={clearSearch}
           >
             Reset
@@ -613,7 +693,11 @@ export default function ChallengeSearch() {
         )}
       </div>
 
-      <div className={styles.quickSearches}>
+      <div
+        className={
+          styles.quickSearches
+        }
+      >
         <span>Quick search:</span>
 
         {[
@@ -622,6 +706,7 @@ export default function ChallengeSearch() {
           "LPR",
           "Camera",
           "Home Assistant",
+          "Alexa",
           "Docker",
         ].map((item) => (
           <button
@@ -637,52 +722,77 @@ export default function ChallengeSearch() {
       </div>
 
       {results.length > 0 ? (
-        <div className={styles.resultsGrid}>
-          {results.map((challenge) => (
-            <a
-              key={challenge.id}
-              href={challenge.link}
-              className={styles.resultCard}
-              onClick={(event) =>
-                handleChallengeClick(
-                  event,
-                  challenge
-                )
-              }
-            >
-              <div className={styles.resultTop}>
-                <span className={styles.category}>
-                  {challenge.category}
-                </span>
-
-                <span
-                  className={styles.arrow}
-                  aria-hidden="true"
+        <div
+          className={
+            styles.resultsGrid
+          }
+        >
+          {results.map(
+            (challenge) => (
+              <a
+                key={challenge.id}
+                href={challenge.link}
+                className={
+                  styles.resultCard
+                }
+                onClick={(event) =>
+                  handleChallengeClick(
+                    event,
+                    challenge
+                  )
+                }
+              >
+                <div
+                  className={
+                    styles.resultTop
+                  }
                 >
-                  →
-                </span>
-              </div>
+                  <span
+                    className={
+                      styles.category
+                    }
+                  >
+                    {
+                      challenge.category
+                    }
+                  </span>
 
-              <strong>
-                {challenge.title}
-              </strong>
+                  <span
+                    className={
+                      styles.arrow
+                    }
+                    aria-hidden="true"
+                  >
+                    →
+                  </span>
+                </div>
 
-              <p>
-                {challenge.summary}
-              </p>
-            </a>
-          ))}
+                <strong>
+                  {challenge.title}
+                </strong>
+
+                <p>
+                  {challenge.summary}
+                </p>
+              </a>
+            )
+          )}
         </div>
       ) : (
-        <div className={styles.emptyState}>
+        <div
+          className={
+            styles.emptyState
+          }
+        >
           <strong>
             No matching challenge found.
           </strong>
 
           <p>
-            Try a broader term such as MQTT,
-            Frigate, Docker, Camera, or
-            Home Assistant.
+            Try a broader term such as
+            MQTT, Frigate, Alexa,
+            Docker, Camera, or Home
+            Assistant.
           </p>
 
           <button

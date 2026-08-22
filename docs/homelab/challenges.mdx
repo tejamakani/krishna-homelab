@@ -1663,6 +1663,7 @@ Several important architecture decisions came directly from troubleshooting.
 | AI complexity | Validate CPU functionality before acceleration |
 | Light-mode failure | Adopt semantic CSS variables |
 | Ambiguous metrics | Scope metrics to specific systems |
+| Alexa face-recognition race condition | Add recognition grace period, event-ID correlation, deduplication, and cooldown |
 
 ---
 
@@ -1974,13 +1975,14 @@ This turns troubleshooting into reusable engineering knowledge.
 | Object Detection | ✅ Validated |
 | LPR Recognition | ✅ Validated |
 | LPR MQTT Metadata | ⚠ Workaround implemented |
-| Face Recognition | 🟡 Under Validation |
+| Face Recognition | ✅ Validated |
 | HA MQTT Sensors | ✅ Implemented |
 | LPR REST Sensor | 🟡 Under Validation |
 | Camera Stream Latency | ✅ Improved |
 | Documentation Theme | ✅ Resolved |
 | Mobile Portal Layout | ✅ Improved |
 | Hardware Acceleration | ⏳ Planned |
+| Alexa Face Recognition Race Condition | ✅ Resolved |
 
 ---
 
@@ -2030,6 +2032,13 @@ Performance second.
 
 ```text
 Validated in Lab does not automatically mean Production ready.
+```
+
+### Correlate asynchronous AI events
+
+```text
+Detection state is not always final state.
+Use stable event IDs to correlate later recognition updates.
 ```
 
 ---
@@ -2099,3 +2108,685 @@ The HomeAuto HomeLab follows one final engineering rule:
 The purpose of this section is therefore not to list mistakes.
 
 It records the engineering decisions that transformed individual issues into improvements to the overall Makani HomeAuto architecture.
+
+---
+
+## Additional Implementation Challenge
+
+The following challenge was discovered while validating the Frigate → MQTT → Home Assistant → Alexa workflow.
+
+<a id="challenge-alexa-face-race-condition"></a>
+
+# 46. Alexa Announces Unknown Person Before Face Recognition Completes
+
+## Problem
+
+During the Alexa security-announcement implementation, Alexa occasionally announced:
+
+```text
+Attention. An unknown person has been detected by the security camera.
+```
+
+and then, several seconds later:
+
+```text
+Krishna has been recognized by the security camera.
+```
+
+for the **same person**.
+
+The individual components were functioning correctly:
+
+```text
+Frigate
+MQTT
+Home Assistant
+Alexa Media Player
+Echo Dot
+```
+
+The problem was caused by the timing difference between **Frigate person detection** and **Frigate face recognition**.
+
+---
+
+## Observed Event Flow
+
+The original behavior looked like this:
+
+```text
+Person enters camera view
+        │
+        ▼
+Frigate detects person
+        │
+        ▼
+after.label = person
+after.sub_label = null
+        │
+        ▼
+Home Assistant receives MQTT event
+        │
+        ▼
+Automation interprets person as UNKNOWN
+        │
+        ▼
+Alexa announces unknown person
+        │
+        ▼
+Frigate continues face processing
+        │
+        ▼
+Face recognized
+        │
+        ▼
+after.sub_label = ["Krishna", 0.93]
+        │
+        ▼
+Home Assistant receives recognition update
+        │
+        ▼
+Alexa announces Krishna
+```
+
+This resulted in two contradictory announcements for the same person.
+
+---
+
+## Investigation
+
+Frigate publishes person-tracking updates through:
+
+```text
+frigate/events
+```
+
+The important fields were:
+
+```text
+after.label
+after.sub_label
+after.id
+after.camera
+```
+
+A typical initial event looked conceptually like:
+
+```json
+{
+  "after": {
+    "id": "ABC123",
+    "label": "person",
+    "camera": "usb_camera",
+    "sub_label": null
+  }
+}
+```
+
+A few seconds later, after face recognition completed, Frigate could publish:
+
+```json
+{
+  "after": {
+    "id": "ABC123",
+    "label": "person",
+    "camera": "usb_camera",
+    "sub_label": ["Krishna", 0.93]
+  }
+}
+```
+
+Notice that both updates contain the same:
+
+```text
+after.id = ABC123
+```
+
+The object had not changed.
+
+Only its recognition state had changed.
+
+---
+
+## Root Cause
+
+The original automation assumed:
+
+```text
+sub_label == null
+        ↓
+Unknown Person
+```
+
+That assumption was incorrect.
+
+Frigate object detection and face recognition are asynchronous processing stages.
+
+A more realistic sequence is:
+
+```text
+T+0 sec
+Person detected
+sub_label = null
+
+T+2 sec
+Face becomes visible
+
+T+4 sec
+Face extracted
+
+T+5 sec
+Recognition completes
+sub_label = ["Krishna", 0.93]
+```
+
+Therefore:
+
+```text
+sub_label == null
+```
+
+initially means:
+
+```text
+Recognition Pending
+```
+
+not:
+
+```text
+Confirmed Unknown Person
+```
+
+The automation was making a final identity decision using an intermediate Frigate event state.
+
+---
+
+## Resolution
+
+The unknown-person workflow was redesigned to include a **recognition grace period**.
+
+The final workflow became:
+
+```text
+Person Detected
+        │
+        ▼
+Capture Frigate Event ID
+        │
+        ▼
+Face already recognized?
+        │
+   ┌────┴────┐
+   │         │
+  YES        NO
+   │         │
+   ▼         ▼
+Known     Recognition
+Path       Pending
+             │
+             ▼
+       Wait up to
+        20 seconds
+             │
+             ▼
+      Same Event ID
+       Recognized?
+         │       │
+        YES      NO
+         │       │
+         ▼       ▼
+      Cancel    Final
+      Unknown   Safety
+       Path     Check
+                   │
+                   ▼
+             Still Unknown?
+                   │
+                   ▼
+              Alexa Warning
+```
+
+The recognition window was configured for approximately:
+
+```text
+20 seconds
+```
+
+This gives Frigate enough time to complete face recognition before Home Assistant declares the person unknown.
+
+---
+
+## Event-ID Correlation
+
+A fixed delay alone was not sufficient.
+
+Consider two people:
+
+```text
+Person A
+Event ID = ABC123
+
+Person B
+Event ID = XYZ789
+```
+
+While Person A is waiting for recognition, Person B could enter the camera view and become recognized.
+
+If Home Assistant only checked:
+
+```text
+Has any face been recognized?
+```
+
+Person B's recognition could incorrectly cancel Person A's unknown-person workflow.
+
+The automation therefore correlates recognition using:
+
+```text
+recognized_face.event_id
+        ==
+original_person_event_id
+```
+
+Example:
+
+```text
+Unknown Evaluation
+Event ID = ABC123
+
+Recognition Event
+Event ID = XYZ789
+```
+
+Result:
+
+```text
+NO MATCH
+
+Continue evaluating ABC123
+```
+
+But:
+
+```text
+Unknown Evaluation
+Event ID = ABC123
+
+Recognition Event
+Event ID = ABC123
+```
+
+Result:
+
+```text
+MATCH
+
+Cancel unknown-person path
+Process known-person announcement
+```
+
+This makes the automation safe when multiple people or cameras are active.
+
+---
+
+## Duplicate Event Protection
+
+Frigate can publish multiple MQTT updates during the lifetime of the same tracked object.
+
+For example:
+
+```text
+ABC123
+  │
+  ├── MQTT Update 1
+  ├── MQTT Update 2
+  ├── MQTT Update 3
+  └── MQTT Update 4
+```
+
+Without deduplication, the same recognition could trigger multiple Alexa announcements.
+
+Home Assistant therefore tracks previously processed event IDs using:
+
+```text
+input_text.frigate_last_face_event_id
+```
+
+The unknown-person workflow similarly tracks:
+
+```text
+input_text.frigate_last_unknown_event_id
+```
+
+This prevents repeated processing of the same Frigate event.
+
+---
+
+## Same-Person Announcement Cooldown
+
+Event-ID deduplication solves duplicate updates for one event, but another scenario remained.
+
+A person can leave and quickly re-enter the camera frame.
+
+Frigate may generate:
+
+```text
+ABC123
+```
+
+followed shortly by:
+
+```text
+XYZ789
+```
+
+even though both events represent the same person.
+
+Without additional protection Alexa could repeatedly announce:
+
+```text
+Krishna has been recognized.
+Krishna has been recognized.
+Krishna has been recognized.
+```
+
+The automation therefore also tracks:
+
+```text
+input_text.frigate_last_announced_face
+```
+
+and:
+
+```text
+input_datetime.frigate_last_face_announcement
+```
+
+A same-person cooldown of approximately:
+
+```text
+60 seconds
+```
+
+was implemented.
+
+The resulting logic is:
+
+```text
+Recognized Face
+      │
+      ▼
+Same Person?
+   │       │
+  NO      YES
+   │       │
+   ▼       ▼
+Allow   Cooldown
+        Expired?
+         │    │
+        YES   NO
+         │    │
+         ▼    ▼
+       Allow Suppress
+```
+
+---
+
+## Automation Execution Modes
+
+The two workflows require different execution modes.
+
+### Known Face Automation
+
+```yaml
+mode: queued
+max: 10
+```
+
+This keeps recognized-face events ordered.
+
+### Unknown Person Automation
+
+```yaml
+mode: parallel
+max: 10
+```
+
+Parallel execution is important because several people may independently be waiting for face recognition:
+
+```text
+Person A ──► Wait for Recognition
+Person B ──► Wait for Recognition
+Person C ──► Wait for Recognition
+```
+
+Each automation instance maintains its own Frigate event ID.
+
+---
+
+## Validation
+
+### Test 1 — Known Person
+
+Expected:
+
+```text
+Person detected
+      ↓
+Recognition completes
+      ↓
+Same event ID matched
+      ↓
+Alexa announces identity
+```
+
+Result:
+
+```text
+Known announcement   = YES
+Unknown announcement = NO
+```
+
+---
+
+### Test 2 — Unknown Person
+
+Expected:
+
+```text
+Person detected
+      ↓
+No recognition
+      ↓
+20-second window
+      ↓
+Final event-ID check
+      ↓
+Still unknown
+      ↓
+Alexa warning
+```
+
+Result:
+
+```text
+Known announcement   = NO
+Unknown announcement = YES
+```
+
+---
+
+### Test 3 — Delayed Recognition
+
+Expected:
+
+```text
+Person detected
+      ↓
+sub_label initially null
+      ↓
+Recognition pending
+      ↓
+Recognition completes within 20 seconds
+      ↓
+Event IDs match
+      ↓
+Unknown path cancelled
+      ↓
+Known announcement
+```
+
+Result:
+
+```text
+Known announcement   = YES
+Unknown announcement = NO
+```
+
+There should be **no early unknown-person warning**.
+
+---
+
+## Diagnostic Command
+
+If the behavior returns, inspect Frigate's MQTT events directly from the Ubuntu Docker host:
+
+```bash
+docker exec mqtt mosquitto_sub \
+  -h localhost \
+  -t 'frigate/events' \
+  -v
+```
+
+Watch:
+
+```text
+after.label
+after.sub_label
+after.id
+after.camera
+```
+
+For a recognized person, confirm that an event initially containing:
+
+```text
+sub_label = null
+```
+
+later receives recognition information for the **same `after.id`**.
+
+---
+
+## Troubleshooting Flow
+
+Use the following isolation sequence:
+
+```text
+Frigate detects person?
+        │
+        ▼
+frigate/events published?
+        │
+        ▼
+after.id present?
+        │
+        ▼
+sub_label eventually populated?
+        │
+        ▼
+HA recognition sensor updated?
+        │
+        ▼
+Event IDs match?
+        │
+        ▼
+Unknown path cancelled?
+        │
+        ▼
+Known automation triggered?
+        │
+        ▼
+Alexa Media Player called?
+        │
+        ▼
+Echo Dot announcement
+```
+
+This makes it possible to isolate the problem to:
+
+```text
+Frigate
+   ↓
+MQTT
+   ↓
+Home Assistant Sensor
+   ↓
+Automation Logic
+   ↓
+Alexa Media Player
+   ↓
+Echo Dot
+```
+
+---
+
+## Resolution Status
+
+| Item | Status |
+|---|---|
+| Root cause identified | ✅ Resolved |
+| Premature unknown classification | ✅ Resolved |
+| 20-second recognition window | ✅ Implemented |
+| Frigate event-ID correlation | ✅ Implemented |
+| Final event-ID safety check | ✅ Implemented |
+| Duplicate MQTT event handling | ✅ Implemented |
+| Same-person cooldown | ✅ Implemented |
+| Parallel unknown-person evaluation | ✅ Implemented |
+| Known-person Alexa announcement | ✅ Operational |
+| Unknown-person Alexa announcement | ✅ Operational |
+
+---
+
+## Engineering Lesson
+
+The primary lesson from this issue was:
+
+> **Do not interpret an intermediate AI-processing state as a final classification.**
+
+For this implementation:
+
+```text
+Person Detected
+      ≠
+Person Confirmed Unknown
+```
+
+and:
+
+```text
+sub_label = null
+```
+
+initially means:
+
+```text
+Recognition Pending
+```
+
+Only after:
+
+```text
+Recognition grace period
+        +
+Event-ID correlation
+        +
+Final safety check
+```
+
+can the system safely classify the event as:
+
+```text
+Confirmed Unknown Person
+```
+
+This approach makes the Frigate → MQTT → Home Assistant → Alexa workflow significantly more reliable as additional people and cameras are added.
