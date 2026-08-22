@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import {
   Activity,
   FlaskConical,
@@ -9,8 +9,11 @@ import {
 import styles from "../PortalLayout.module.css";
 
 import DetailPanel from "../RightPanel/DetailPanel";
-import { labMetrics } from "../RightPanel/labMetrics";
+
+import { buildLabMetrics } from "../RightPanel/labMetrics";
 import { productionMetrics } from "../RightPanel/productionMetrics";
+
+import useLabTelemetry from "../RightPanel/hooks/useLabTelemetry";
 
 function EnvironmentMetric({
   metric,
@@ -47,8 +50,10 @@ function EnvironmentMetric({
 function MonitoringEnvironment({
   title,
   icon: Icon,
-  metrics,
+  metrics = [],
   onSelect,
+  environmentStatus = "Healthy",
+  environmentStatusColor = "#22c55e",
 }) {
   return (
     <section className={styles.monitorEnvironment}>
@@ -58,39 +63,165 @@ function MonitoringEnvironment({
           <strong>{title}</strong>
         </div>
 
-        <span className={styles.environmentHealthy}>
-          <span className={styles.monitorStatusDot} />
-          Healthy
+        <span
+          className={styles.environmentHealthy}
+          style={{
+            color: environmentStatusColor,
+          }}
+        >
+          <span
+            className={styles.monitorStatusDot}
+            style={{
+              backgroundColor:
+                environmentStatusColor,
+            }}
+          />
+
+          {environmentStatus}
         </span>
       </div>
 
       <div className={styles.monitorMetricGrid}>
-        {metrics.map((metric) => (
-          <EnvironmentMetric
-            key={metric.id}
-            metric={metric}
-            onSelect={onSelect}
-          />
-        ))}
+        {metrics.length > 0 ? (
+          metrics.map((metric) => (
+            <EnvironmentMetric
+              key={metric.id}
+              metric={metric}
+              onSelect={onSelect}
+            />
+          ))
+        ) : (
+          <div className={styles.monitorMetric}>
+            <div>
+              <strong>Live Telemetry</strong>
+              <span>Connecting...</span>
+            </div>
+
+            <span
+              className={styles.monitorStatus}
+              style={{ color: "#38bdf8" }}
+            >
+              <span
+                className={styles.monitorStatusDot}
+                style={{
+                  backgroundColor: "#38bdf8",
+                }}
+              />
+
+              Loading
+            </span>
+          </div>
+        )}
       </div>
     </section>
   );
+}
+
+function getLabEnvironmentStatus({
+  telemetry,
+  loading,
+  error,
+}) {
+  if (loading) {
+    return {
+      text: "Connecting",
+      color: "#38bdf8",
+    };
+  }
+
+  if (error || !telemetry) {
+    return {
+      text: "Telemetry Offline",
+      color: "#ef4444",
+    };
+  }
+
+  if (telemetry.freshness === "offline") {
+    return {
+      text: "Offline",
+      color: "#ef4444",
+    };
+  }
+
+  if (telemetry.freshness === "stale") {
+    return {
+      text: "Stale",
+      color: "#f59e0b",
+    };
+  }
+
+  return {
+    text: `Live · ${telemetry.age_seconds ?? 0}s`,
+    color: "#22c55e",
+  };
 }
 
 export default function MonitoringCard() {
   const [selectedWidget, setSelectedWidget] =
     useState(null);
 
+  const {
+    telemetry,
+    loading,
+    error,
+  } = useLabTelemetry();
+
+  const labMetrics = useMemo(() => {
+    return buildLabMetrics(telemetry);
+  }, [telemetry]);
+
+  const labEnvironmentStatus = useMemo(() => {
+    return getLabEnvironmentStatus({
+      telemetry,
+      loading,
+      error,
+    });
+  }, [
+    telemetry,
+    loading,
+    error,
+  ]);
+
+  /*
+   * Keep an already-open Lab drawer synchronized
+   * with fresh telemetry.
+   */
+  const activeWidget = useMemo(() => {
+    if (!selectedWidget) {
+      return null;
+    }
+
+    if (
+      selectedWidget.environment ===
+      "LAB ENVIRONMENT"
+    ) {
+      return (
+        labMetrics.find(
+          (metric) =>
+            metric.id === selectedWidget.id
+        ) || selectedWidget
+      );
+    }
+
+    return selectedWidget;
+  }, [
+    selectedWidget,
+    labMetrics,
+  ]);
+
   return (
     <>
-      <article className={styles.primaryPortalCard}>
-        <div className={styles.primaryCardHeader}>
-          <div className={styles.primaryCardIcon}>
-            <Activity size={24} strokeWidth={1.8} />
+      <section className={styles.monitoringCard}>
+        <div className={styles.monitoringCardHeader}>
+          <div className={styles.monitoringCardIcon}>
+            <Activity
+              size={22}
+              strokeWidth={1.8}
+            />
           </div>
 
           <div>
-            <span className={styles.primaryCardEyebrow}>
+            <span className={styles.cardEyebrow}>
               ENVIRONMENT OVERVIEW
             </span>
 
@@ -98,17 +229,24 @@ export default function MonitoringCard() {
           </div>
         </div>
 
-        <p className={styles.primaryCardDescription}>
-          Monitor platform health, application status, AI services,
-          and infrastructure across Lab and Production environments.
+        <p className={styles.monitoringDescription}>
+          Monitor platform health, application status,
+          AI services, and infrastructure across Lab and
+          Production environments.
         </p>
 
-        <div className={styles.monitoringEnvironments}>
+        <div className={styles.monitoringEnvironmentList}>
           <MonitoringEnvironment
             title="Lab Environment"
             icon={FlaskConical}
             metrics={labMetrics}
             onSelect={setSelectedWidget}
+            environmentStatus={
+              labEnvironmentStatus.text
+            }
+            environmentStatusColor={
+              labEnvironmentStatus.color
+            }
           />
 
           <MonitoringEnvironment
@@ -116,21 +254,32 @@ export default function MonitoringCard() {
             icon={Server}
             metrics={productionMetrics}
             onSelect={setSelectedWidget}
+            environmentStatus="Healthy"
+            environmentStatusColor="#22c55e"
           />
         </div>
 
-        <button
-          type="button"
-          className={styles.primaryCardActionButton}
+        <a
+          href="#"
+          className={styles.monitoringAction}
+          onClick={(event) =>
+            event.preventDefault()
+          }
         >
           Open Monitoring Dashboard
-          <ArrowRight size={17} strokeWidth={1.8} />
-        </button>
-      </article>
+
+          <ArrowRight
+            size={16}
+            strokeWidth={1.8}
+          />
+        </a>
+      </section>
 
       <DetailPanel
-        widget={selectedWidget}
-        onClose={() => setSelectedWidget(null)}
+        widget={activeWidget}
+        onClose={() =>
+          setSelectedWidget(null)
+        }
       />
     </>
   );

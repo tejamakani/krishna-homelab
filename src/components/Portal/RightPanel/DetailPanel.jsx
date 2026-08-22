@@ -12,7 +12,10 @@ function MetricSection({ section }) {
             className={styles.drawerMetricRow}
           >
             <span>{item.label}</span>
-            <strong>{item.value}</strong>
+
+            <strong>
+              {item.value}
+            </strong>
           </div>
         ))}
       </div>
@@ -26,24 +29,55 @@ function ProgressSection({ section }) {
       <h4>{section.title}</h4>
 
       <div className={styles.resourceList}>
-        {section.items.map((item) => (
-          <div
-            key={item.label}
-            className={styles.resourceItem}
-          >
-            <div className={styles.resourceHeader}>
-              <span>{item.label}</span>
-              <strong>{item.value}%</strong>
-            </div>
+        {section.items.map((item) => {
+          const value =
+            Number(item.value) || 0;
 
-            <div className={styles.resourceTrack}>
+          const safeValue =
+            Math.min(
+              Math.max(value, 0),
+              100
+            );
+
+          return (
+            <div
+              key={item.label}
+              className={
+                styles.resourceItem
+              }
+            >
               <div
-                className={styles.resourceProgress}
-                style={{ width: `${item.value}%` }}
-              />
+                className={
+                  styles.resourceHeader
+                }
+              >
+                <span>
+                  {item.label}
+                </span>
+
+                <strong>
+                  {value}%
+                </strong>
+              </div>
+
+              <div
+                className={
+                  styles.resourceTrack
+                }
+              >
+                <div
+                  className={
+                    styles.resourceProgress
+                  }
+                  style={{
+                    width:
+                      `${safeValue}%`,
+                  }}
+                />
+              </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </section>
   );
@@ -54,21 +88,38 @@ function StatusSection({ section }) {
     <section className={styles.drawerSection}>
       <h4>{section.title}</h4>
 
-      <div className={styles.drawerServiceList}>
+      <div
+        className={
+          styles.drawerServiceList
+        }
+      >
         {section.items.map((item) => (
           <div
             key={item.label}
-            className={styles.drawerServiceRow}
+            className={
+              styles.drawerServiceRow
+            }
           >
-            <span>{item.label}</span>
+            <span>
+              {item.label}
+            </span>
 
             <strong
-              className={styles.drawerServiceStatus}
-              style={{ color: item.color }}
+              className={
+                styles.drawerServiceStatus
+              }
+              style={{
+                color: item.color,
+              }}
             >
               <span
-                className={styles.drawerStatusDot}
-                style={{ backgroundColor: item.color }}
+                className={
+                  styles.drawerStatusDot
+                }
+                style={{
+                  backgroundColor:
+                    item.color,
+                }}
               />
 
               {item.value}
@@ -80,17 +131,51 @@ function StatusSection({ section }) {
   );
 }
 
-export default function DetailPanel({ widget, onClose }) {
+function TelemetryNotice({
+  freshness,
+  ageSeconds,
+}) {
+  const age =
+    Number(ageSeconds) || 0;
+
+  let label = "LIVE TELEMETRY";
+  let description =
+    `Updated ${age}s ago`;
+
+  if (freshness === "stale") {
+    label = "STALE TELEMETRY";
+
+    description =
+      `Last update ${age}s ago`;
+  }
+
+  if (freshness === "offline") {
+    label = "TELEMETRY OFFLINE";
+
+    description =
+      `Last update ${age}s ago`;
+  }
+
+  return (
+    <div className={styles.demoNotice}>
+      <span>{label}</span>
+
+      {description}
+    </div>
+  );
+}
+
+export default function DetailPanel({
+  widget,
+  onClose,
+}) {
   if (!widget) {
     return null;
   }
 
-  /*
-   * Compatibility with the existing widgets.
-   * They still use widget.details.
-   */
   const legacySections =
-    !widget.sections && widget.details
+    !widget.sections &&
+    widget.details
       ? [
           {
             title: "DETAILS",
@@ -100,7 +185,9 @@ export default function DetailPanel({ widget, onClose }) {
         ]
       : [];
 
-  const sections = widget.sections || legacySections;
+  const sections =
+    widget.sections ||
+    legacySections;
 
   return (
     <div
@@ -109,18 +196,35 @@ export default function DetailPanel({ widget, onClose }) {
     >
       <aside
         className={styles.detailDrawer}
-        onClick={(event) => event.stopPropagation()}
+        onClick={(event) =>
+          event.stopPropagation()
+        }
       >
-        <div className={styles.detailHeader}>
+        <div
+          className={
+            styles.detailHeader
+          }
+        >
           <div>
-            <span className={styles.drawerEnvironment}>
-              {widget.environment || "PLATFORM DETAILS"}
+            <span
+              className={
+                styles.drawerEnvironment
+              }
+            >
+              {widget.environment ||
+                "PLATFORM DETAILS"}
             </span>
 
-            <h3>{widget.title}</h3>
+            <h3>
+              {widget.title}
+            </h3>
 
             {widget.subtitle && (
-              <p className={styles.drawerSubtitle}>
+              <p
+                className={
+                  styles.drawerSubtitle
+                }
+              >
                 {widget.subtitle}
               </p>
             )}
@@ -128,7 +232,9 @@ export default function DetailPanel({ widget, onClose }) {
 
           <button
             type="button"
-            className={styles.closeButton}
+            className={
+              styles.closeButton
+            }
             onClick={onClose}
             aria-label="Close details"
           >
@@ -136,20 +242,35 @@ export default function DetailPanel({ widget, onClose }) {
           </button>
         </div>
 
-        <div className={styles.drawerHealth}>
+        <div
+          className={
+            styles.drawerHealth
+          }
+        >
           <div>
             <span>STATUS</span>
-            <strong>{widget.summary}</strong>
+
+            <strong>
+              {widget.summary}
+            </strong>
           </div>
 
           <div
-            className={styles.drawerHealthStatus}
-            style={{ color: widget.statusColor }}
+            className={
+              styles.drawerHealthStatus
+            }
+            style={{
+              color:
+                widget.statusColor,
+            }}
           >
             <span
-              className={styles.drawerStatusDot}
+              className={
+                styles.drawerStatusDot
+              }
               style={{
-                backgroundColor: widget.statusColor,
+                backgroundColor:
+                  widget.statusColor,
               }}
             />
 
@@ -157,9 +278,16 @@ export default function DetailPanel({ widget, onClose }) {
           </div>
         </div>
 
-        <div className={styles.drawerSections}>
+        <div
+          className={
+            styles.drawerSections
+          }
+        >
           {sections.map((section) => {
-            if (section.type === "progress") {
+            if (
+              section.type ===
+              "progress"
+            ) {
               return (
                 <ProgressSection
                   key={section.title}
@@ -168,7 +296,10 @@ export default function DetailPanel({ widget, onClose }) {
               );
             }
 
-            if (section.type === "status") {
+            if (
+              section.type ===
+              "status"
+            ) {
               return (
                 <StatusSection
                   key={section.title}
@@ -186,10 +317,29 @@ export default function DetailPanel({ widget, onClose }) {
           })}
         </div>
 
-        <div className={styles.demoNotice}>
-          <span>DEMO DATA</span>
-          Live telemetry integration will be added in a later phase.
-        </div>
+        {widget.telemetry ? (
+          <TelemetryNotice
+            freshness={
+              widget.freshness
+            }
+            ageSeconds={
+              widget.ageSeconds
+            }
+          />
+        ) : (
+          <div
+            className={
+              styles.demoNotice
+            }
+          >
+            <span>
+              STATIC DATA
+            </span>
+
+            Production telemetry
+            integration pending.
+          </div>
+        )}
       </aside>
     </div>
   );
